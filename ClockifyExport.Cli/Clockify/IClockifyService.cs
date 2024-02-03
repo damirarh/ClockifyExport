@@ -6,14 +6,14 @@
 public interface IClockifyService
 {
     /// <summary>
-    /// Gets a shared report as CSV.
+    /// Gets and parses a shared CSV report.
     /// </summary>
     /// <param name="reportId">Unique report ID.</param>
     /// <param name="startDate">Inclusive starting date of the report.</param>
     /// <param name="endDate">Inclusive starting date of the report.</param>
     /// <param name="apiKey">Workspace API key for the Clockify API.</param>
-    /// <returns>Shared report as CSV string.</returns>
-    Task<string> GetSharedReportAsCsv(
+    /// <returns>Time entries from the shared report.</returns>
+    Task<List<ClockifyTimeEntry>> GetSharedReport(
         string reportId,
         DateOnly startDate,
         DateOnly endDate,

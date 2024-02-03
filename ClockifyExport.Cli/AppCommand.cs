@@ -44,7 +44,12 @@ public class AppCommand(IClockifyService clockifyService)
     /// <returns>0 on success, non-0 on failure.</returns>
     public async Task<int> OnExecuteAsync()
     {
-        var csv = await clockifyService.GetSharedReportAsCsv(ReportId, StartDate, EndDate, ApiKey);
+        var timeEntries = await clockifyService.GetSharedReport(
+            ReportId,
+            StartDate,
+            EndDate,
+            ApiKey
+        );
 
         return 0;
     }

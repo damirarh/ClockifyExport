@@ -8,6 +8,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="CsvHelper" Version="30.1.0" />
     <PackageReference Include="Flurl" Version="4.0.0" />
     <PackageReference Include="McMaster.Extensions.CommandLineUtils" Version="4.1.0" />
     <PackageReference Include="McMaster.Extensions.Hosting.CommandLine" Version="4.1.0" />

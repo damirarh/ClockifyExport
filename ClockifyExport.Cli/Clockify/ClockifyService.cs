@@ -1,11 +1,18 @@
-﻿namespace ClockifyExport.Cli.Clockify;
+﻿using System.Globalization;
+using CsvHelper;
 
-/// <inheritdoc />
+namespace ClockifyExport.Cli.Clockify;
+
+/// <summary>
+/// Provides access to the Clockify API.
+/// </summary>
 /// <param name="httpClient">Injected typed <see cref="HttpClient"/> instance.</param>
-public class ClockifyService(HttpClient httpClient) : IClockifyService
+/// <param name="clockifyUrlBuilder">Injected <see cref="IClockifyUrlBuilder"/> instance.</param>
+public class ClockifyService(HttpClient httpClient, IClockifyUrlBuilder clockifyUrlBuilder)
+    : IClockifyService
 {
     ///<inheritdoc />
-    public async Task<string> GetSharedReportAsCsv(
+    public async Task<List<ClockifyTimeEntry>> GetSharedReport(
         string reportId,
         DateOnly startDate,
         DateOnly endDate,
@@ -13,7 +20,9 @@ public class ClockifyService(HttpClient httpClient) : IClockifyService
     )
     {
         httpClient.DefaultRequestHeaders.Add("x-api-key", apiKey);
-        var url = ClockifyUrlBuilder.BuildCsvSharedReportUrl(reportId, startDate, endDate);
-        return await httpClient.GetStringAsync(url);
+        var url = clockifyUrlBuilder.BuildCsvSharedReportUrl(reportId, startDate, endDate);
+        var csv = await httpClient.GetStringAsync(url);
+        using var csvReader = new CsvReader(new StringReader(csv), CultureInfo.InvariantCulture);
+        return csvReader.GetRecords<ClockifyTimeEntry>().ToList();
     }
 }

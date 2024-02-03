@@ -9,7 +9,8 @@ public class ClockifyUrlBuilderTests
     [Test]
     public void BuildsCsvSharedReportUrl()
     {
-        var url = ClockifyUrlBuilder.BuildCsvSharedReportUrl(
+        var urlBuilder = new ClockifyUrlBuilder();
+        var url = urlBuilder.BuildCsvSharedReportUrl(
             "61a710a20a923f0f3b446bdc",
             new DateOnly(2023, 11, 1),
             new DateOnly(2023, 11, 30)

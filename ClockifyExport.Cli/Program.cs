@@ -10,6 +10,7 @@ await Host.CreateDefaultBuilder()
 static void ConfigureServices(HostBuilderContext context, IServiceCollection services)
 {
     services.AddTransient<IClockifyService, ClockifyService>();
+    services.AddTransient<IClockifyUrlBuilder, ClockifyUrlBuilder>();
 
     services.AddHttpClient<ClockifyService>();
 }
