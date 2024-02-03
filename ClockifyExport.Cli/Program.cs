@@ -1,2 +1,15 @@
-﻿// See https://aka.ms/new-console-template for more information
-Console.WriteLine("Hello, World!");
+﻿using ClockifyExport.Cli;
+using ClockifyExport.Cli.Clockify;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
+
+await Host.CreateDefaultBuilder()
+    .ConfigureServices(ConfigureServices)
+    .RunCommandLineApplicationAsync<AppCommand>(args);
+
+static void ConfigureServices(HostBuilderContext context, IServiceCollection services)
+{
+    services.AddTransient<IClockifyService, ClockifyService>();
+
+    services.AddHttpClient<ClockifyService>();
+}

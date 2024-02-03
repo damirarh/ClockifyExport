@@ -1,0 +1,17 @@
+meta {
+  name: Generate shared report
+  type: http
+  seq: 4
+}
+
+get {
+  url: {{reportsUrl}}/v1/shared-reports/{{reportId}}?dateRangeStart=2024-01-01T00:00:00.000Z&dateRangeEnd=2024-01-31T23:59:59.999Z&exportType=CSV
+  body: none
+  auth: none
+}
+
+query {
+  dateRangeStart: 2024-01-01T00:00:00.000Z
+  dateRangeEnd: 2024-01-31T23:59:59.999Z
+  exportType: CSV
+}
