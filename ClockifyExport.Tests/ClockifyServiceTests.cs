@@ -45,7 +45,7 @@ public class ClockifyServiceTests
         var startDate = endDate.AddDays(-7);
         var apiKey = Guid.NewGuid().ToString();
 
-        var date = startDate.ToString();
+        var date = startDate.ToString("o");
         var task = "My task";
         var project = "My project";
         var client = "My client";
@@ -85,7 +85,7 @@ public class ClockifyServiceTests
         var startDate = endDate.AddDays(-7);
         var apiKey = Guid.NewGuid().ToString();
 
-        var date = startDate.ToString();
+        var date = startDate.ToString("o");
         var project = "My project";
         var client = "My client";
         var description = "My description";
