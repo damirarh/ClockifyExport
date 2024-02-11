@@ -29,14 +29,14 @@ public class AppCommand(IClockifyService clockifyService)
     /// </summary>
     [Required]
     [Option(Description = "Report start date (inclusive).")]
-    public DateOnly StartDate { get; set; }
+    public DateOnly? StartDate { get; set; } = null!;
 
     /// <summary>
     /// Report end date (inclusive).
     /// </summary>
     [Required]
     [Option(Description = "Report end date (inclusive).")]
-    public DateOnly EndDate { get; set; }
+    public DateOnly? EndDate { get; set; } = null!;
 
     /// <summary>
     /// Called when the command is invoked.
@@ -46,8 +46,8 @@ public class AppCommand(IClockifyService clockifyService)
     {
         var timeEntries = await clockifyService.GetSharedReport(
             ReportId,
-            StartDate,
-            EndDate,
+            StartDate!.Value, // [Required] ensures that this is not null
+            EndDate!.Value, // [Required] ensures that this is not null
             ApiKey
         );
 
