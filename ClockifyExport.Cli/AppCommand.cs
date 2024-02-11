@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using ClockifyExport.Cli.Clockify;
+using ClockifyExport.Cli.Processing;
 using McMaster.Extensions.CommandLineUtils;
 
 namespace ClockifyExport.Cli;
@@ -8,7 +9,7 @@ namespace ClockifyExport.Cli;
 /// Implements the root/only command of the application.
 /// </summary>
 /// <param name="clockifyService">Injected <see cref="IClockifyService"/> instance.</param>
-public class AppCommand(IClockifyService clockifyService)
+public class AppCommand(IClockifyService clockifyService, TimeEntryAggregator timeEntryAggregator)
 {
     /// <summary>
     /// Clockify API key.
@@ -39,6 +40,13 @@ public class AppCommand(IClockifyService clockifyService)
     public DateOnly? EndDate { get; set; } = null!;
 
     /// <summary>
+    /// Column to group by time entries within a day.
+    /// </summary>
+    [Required]
+    [Option(Description = "Column to group by time entries within a day.")]
+    public TimeEntryGrouping? Grouping { get; set; }
+
+    /// <summary>
     /// Called when the command is invoked.
     /// </summary>
     /// <returns>0 on success, non-0 on failure.</returns>
@@ -49,6 +57,11 @@ public class AppCommand(IClockifyService clockifyService)
             StartDate!.Value, // [Required] ensures that this is not null
             EndDate!.Value, // [Required] ensures that this is not null
             ApiKey
+        );
+
+        var groupedTimeEntries = timeEntryAggregator.Aggregate(
+            timeEntries,
+            Grouping!.Value // [Required] ensures that this is not null
         );
 
         return 0;
