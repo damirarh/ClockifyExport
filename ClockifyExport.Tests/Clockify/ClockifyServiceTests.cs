@@ -5,7 +5,7 @@ using Moq;
 using Moq.AutoMock;
 using Moq.Contrib.HttpClient;
 
-namespace ClockifyExport.Tests;
+namespace ClockifyExport.Tests.Clockify;
 
 public class ClockifyServiceTests
 {

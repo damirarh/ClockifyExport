@@ -2,7 +2,7 @@ using ClockifyExport.Cli.Clockify;
 using FluentAssertions;
 using Flurl;
 
-namespace ClockifyExport.Tests;
+namespace ClockifyExport.Tests.Clockify;
 
 public class ClockifyUrlBuilderTests
 {
