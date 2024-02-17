@@ -7,22 +7,21 @@ namespace ClockifyExport.Tests.Processing;
 public class TimeEntryAggregatorTests
 {
     private static readonly List<ClockifyTimeEntry> timeEntries =
-        new()
-        {
-            CreateClockifyTimeEntry("2024-01-01", "TA", "P1", "C1", "D1A1", 0.5),
-            CreateClockifyTimeEntry("2024-01-01", "TA", "P1", "C1", "D1A2", 0.5),
-            CreateClockifyTimeEntry("2024-01-01", "TB", "P1", "C1", "D1B1", 0.5),
-            CreateClockifyTimeEntry("2024-01-01", "TB", "P1", "C1", "D1B2", 0.5),
-            CreateClockifyTimeEntry("2024-01-01", "TA", "P2", "C1", "D2A1", 0.5),
-            CreateClockifyTimeEntry("2024-01-01", "TA", "P2", "C1", "D2A2", 0.5),
-            CreateClockifyTimeEntry("2024-01-01", "TC", "P2", "C1", "D2C1", 0.5),
-            CreateClockifyTimeEntry("2024-01-01", "TC", "P2", "C1", "D2C2", 0.5),
-            CreateClockifyTimeEntry("2024-01-02", "TA", "P1", "C1", "D1A", 0.5),
-            CreateClockifyTimeEntry("2024-01-02", "TB", "P1", "C1", "D1B", 0.5),
-            CreateClockifyTimeEntry("2024-01-02", "TA", "P2", "C1", "D2A", 0.5),
-            CreateClockifyTimeEntry("2024-01-02", "TC", "P2", "C1", "D2C", 0.5),
-            CreateClockifyTimeEntry("2024-01-03", null, "P3", "C1", "D3", 0.5),
-        };
+    [
+        CreateClockifyTimeEntry("2024-01-01", "TA", "P1", "C1", "D1A1", 0.5),
+        CreateClockifyTimeEntry("2024-01-01", "TA", "P1", "C1", "D1A2", 0.5),
+        CreateClockifyTimeEntry("2024-01-01", "TB", "P1", "C1", "D1B1", 0.5),
+        CreateClockifyTimeEntry("2024-01-01", "TB", "P1", "C1", "D1B2", 0.5),
+        CreateClockifyTimeEntry("2024-01-01", "TA", "P2", "C1", "D2A1", 0.5),
+        CreateClockifyTimeEntry("2024-01-01", "TA", "P2", "C1", "D2A2", 0.5),
+        CreateClockifyTimeEntry("2024-01-01", "TC", "P2", "C1", "D2C1", 0.5),
+        CreateClockifyTimeEntry("2024-01-01", "TC", "P2", "C1", "D2C2", 0.5),
+        CreateClockifyTimeEntry("2024-01-02", "TA", "P1", "C1", "D1A", 0.5),
+        CreateClockifyTimeEntry("2024-01-02", "TB", "P1", "C1", "D1B", 0.5),
+        CreateClockifyTimeEntry("2024-01-02", "TA", "P2", "C1", "D2A", 0.5),
+        CreateClockifyTimeEntry("2024-01-02", "TC", "P2", "C1", "D2C", 0.5),
+        CreateClockifyTimeEntry("2024-01-03", null, "P3", "C1", "D3", 0.5),
+    ];
 
     private static ClockifyTimeEntry CreateClockifyTimeEntry(
         string date,
@@ -32,7 +31,7 @@ public class TimeEntryAggregatorTests
         string description,
         double hours
     ) =>
-        new ClockifyTimeEntry
+        new()
         {
             Date = date,
             Task = task,

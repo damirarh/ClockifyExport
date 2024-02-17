@@ -13,7 +13,7 @@ static void ConfigureServices(HostBuilderContext context, IServiceCollection ser
 {
     services.AddTransient<IClockifyService, ClockifyService>();
     services.AddTransient<IClockifyUrlBuilder, ClockifyUrlBuilder>();
-    services.AddTransient<TimeEntryAggregator>();
+    services.AddTransient<ITimeEntryAggregator, TimeEntryAggregator>();
     services.AddExporters();
 
     services.AddHttpClient<ClockifyService>();

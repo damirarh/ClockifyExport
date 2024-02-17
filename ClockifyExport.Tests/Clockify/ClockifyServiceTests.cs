@@ -9,7 +9,7 @@ namespace ClockifyExport.Tests.Clockify;
 
 public class ClockifyServiceTests
 {
-    private void SetupMocks(
+    private static void SetupMocks(
         AutoMocker mocker,
         string reportId,
         DateOnly startDate,

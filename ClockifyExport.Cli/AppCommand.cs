@@ -10,11 +10,11 @@ namespace ClockifyExport.Cli;
 /// Implements the root/only command of the application.
 /// </summary>
 /// <param name="clockifyService">Injected <see cref="IClockifyService"/> instance.</param>
-/// <param name="timeEntryAggregator">Injected <see cref="TimeEntryAggregator"/> instance.</param>
+/// <param name="timeEntryAggregator">Injected <see cref="ITimeEntryAggregator"/> instance.</param>
 /// <param name="exporterProvider">Injected <see cref="ExporterProvider"/> instance.</param>
 public class AppCommand(
     IClockifyService clockifyService,
-    TimeEntryAggregator timeEntryAggregator,
+    ITimeEntryAggregator timeEntryAggregator,
     ExporterProvider exporterProvider
 )
 {
