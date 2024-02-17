@@ -1,5 +1,6 @@
 ﻿using ClockifyExport.Cli;
 using ClockifyExport.Cli.Clockify;
+using ClockifyExport.Cli.Export;
 using ClockifyExport.Cli.Processing;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -13,6 +14,7 @@ static void ConfigureServices(HostBuilderContext context, IServiceCollection ser
     services.AddTransient<IClockifyService, ClockifyService>();
     services.AddTransient<IClockifyUrlBuilder, ClockifyUrlBuilder>();
     services.AddTransient<TimeEntryAggregator>();
+    services.AddExporters();
 
     services.AddHttpClient<ClockifyService>();
 }

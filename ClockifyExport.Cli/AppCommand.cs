@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using ClockifyExport.Cli.Clockify;
+using ClockifyExport.Cli.Export;
 using ClockifyExport.Cli.Processing;
 using McMaster.Extensions.CommandLineUtils;
 
@@ -9,7 +10,13 @@ namespace ClockifyExport.Cli;
 /// Implements the root/only command of the application.
 /// </summary>
 /// <param name="clockifyService">Injected <see cref="IClockifyService"/> instance.</param>
-public class AppCommand(IClockifyService clockifyService, TimeEntryAggregator timeEntryAggregator)
+/// <param name="timeEntryAggregator">Injected <see cref="TimeEntryAggregator"/> instance.</param>
+/// <param name="exporterProvider">Injected <see cref="ExporterProvider"/> instance.</param>
+public class AppCommand(
+    IClockifyService clockifyService,
+    TimeEntryAggregator timeEntryAggregator,
+    ExporterProvider exporterProvider
+)
 {
     /// <summary>
     /// Clockify API key.
@@ -47,6 +54,20 @@ public class AppCommand(IClockifyService clockifyService, TimeEntryAggregator ti
     public TimeEntryGrouping? Grouping { get; set; }
 
     /// <summary>
+    /// Export format.
+    /// </summary>
+    [Required]
+    [Option(Description = "Export format.")]
+    public ExportFormat? Format { get; set; }
+
+    /// <summary>
+    /// Output file.
+    /// </summary>
+    [Required]
+    [Option(Description = "Output file.")]
+    public string Output { get; set; } = null!;
+
+    /// <summary>
     /// Called when the command is invoked.
     /// </summary>
     /// <returns>0 on success, non-0 on failure.</returns>
@@ -63,6 +84,12 @@ public class AppCommand(IClockifyService clockifyService, TimeEntryAggregator ti
             timeEntries,
             Grouping!.Value // [Required] ensures that this is not null
         );
+
+        var exporter = exporterProvider.GetExporter(
+            Format!.Value // [Required] ensures that this is not null
+        );
+        var exportedTimeEntries = exporter.Export(groupedTimeEntries);
+        await File.WriteAllTextAsync(Output, exportedTimeEntries);
 
         return 0;
     }
