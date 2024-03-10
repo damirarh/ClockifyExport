@@ -1,4 +1,5 @@
 ﻿using ClockifyExport.Cli.Clockify;
+using ClockifyExport.Cli.Processing.PostProcessors;
 
 namespace ClockifyExport.Cli.Processing;
 
@@ -7,6 +8,8 @@ namespace ClockifyExport.Cli.Processing;
 /// </summary>
 public class TimeEntryAggregator : ITimeEntryAggregator
 {
+    private readonly List<IPostProcessor> postProcessors = [];
+
     /// <inheritdoc />
     public List<GroupedTimeEntry> Aggregate(
         IEnumerable<ClockifyTimeEntry> timeEntries,
@@ -28,8 +31,12 @@ public class TimeEntryAggregator : ITimeEntryAggregator
                         )
                     )
             )
+            .Select(ExecutePostProcessors)
             .ToList();
     }
+
+    /// <inheritdoc/>
+    public void AddPostProcessor(IPostProcessor postProcessor) => postProcessors.Add(postProcessor);
 
     private static Func<ClockifyTimeEntry, string> GetGroupingSelector(TimeEntryGrouping grouping)
     {
@@ -39,5 +46,14 @@ public class TimeEntryAggregator : ITimeEntryAggregator
             TimeEntryGrouping.ByProject => timeEntry => timeEntry.Project,
             _ => throw new ArgumentException($"Unknown grouping: {grouping}", nameof(grouping))
         };
+    }
+
+    private GroupedTimeEntry ExecutePostProcessors(GroupedTimeEntry entry)
+    {
+        foreach (var postProcessor in postProcessors)
+        {
+            entry = postProcessor.Process(entry);
+        }
+        return entry;
     }
 }

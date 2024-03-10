@@ -2,6 +2,8 @@
 using ClockifyExport.Cli.Clockify;
 using ClockifyExport.Cli.Export;
 using ClockifyExport.Cli.Processing;
+using ClockifyExport.Cli.Processing.PostProcessors;
+using ClockifyExport.Cli.Validation;
 using McMaster.Extensions.CommandLineUtils;
 
 namespace ClockifyExport.Cli;
@@ -29,7 +31,7 @@ public class AppCommand(
     /// Clockify shared report ID.
     /// </summary>
     [Required]
-    [Option(Description = "Clockify shared report ID.")]
+    [Option(Description = "Clockify shared report ID.", ShortName = "i")]
     public string ReportId { get; set; } = null!;
 
     /// <summary>
@@ -52,6 +54,13 @@ public class AppCommand(
     [Required]
     [Option(Description = "Column to group by time entries within a day.")]
     public TimeEntryGrouping? Grouping { get; set; }
+
+    /// <summary>
+    /// Number of minutes to round duration up to after grouping.
+    /// </summary>
+    [FactorOf(60)]
+    [Option(Description = "Number of minutes to round duration up to after grouping.")]
+    public int? RoundUpTo { get; set; }
 
     /// <summary>
     /// Export format.
@@ -79,6 +88,11 @@ public class AppCommand(
             EndDate!.Value, // [Required] ensures that this is not null
             ApiKey
         );
+
+        if (RoundUpTo.HasValue)
+        {
+            timeEntryAggregator.AddPostProcessor(new RoundingPostProcessor(RoundUpTo.Value));
+        }
 
         var groupedTimeEntries = timeEntryAggregator.Aggregate(
             timeEntries,
