@@ -84,12 +84,14 @@ public class AppCommand(
     /// <returns>0 on success, non-0 on failure.</returns>
     public async Task<int> OnExecuteAsync()
     {
-        var csv = await apiClient.GetSharedReportCsvAsync(
-            ReportId,
-            StartDate!.Value, // [Required] ensures that this is not null
-            EndDate!.Value, // [Required] ensures that this is not null
-            ApiKey
-        );
+        var csv = await apiClient
+            .GetSharedReportCsvAsync(
+                ReportId,
+                StartDate!.Value, // [Required] ensures that this is not null
+                EndDate!.Value, // [Required] ensures that this is not null
+                ApiKey
+            )
+            .ConfigureAwait(false);
 
         var timeEntries = csvParser.ParseSharedReportCsv(csv);
 
@@ -107,7 +109,7 @@ public class AppCommand(
             Format!.Value // [Required] ensures that this is not null
         );
         var exportedTimeEntries = exporter.Export(groupedTimeEntries);
-        await File.WriteAllTextAsync(Output, exportedTimeEntries);
+        await File.WriteAllTextAsync(Output, exportedTimeEntries).ConfigureAwait(false);
 
         return 0;
     }

@@ -10,5 +10,5 @@ public interface ICsvParser
     /// </summary>
     /// <param name="csv">Shared report in CSV format</param>
     /// <returns>Time entries from the shared report.</returns>
-    List<ClockifyTimeEntry> ParseSharedReportCsv(string csv);
+    IReadOnlyList<ClockifyTimeEntry> ParseSharedReportCsv(string csv);
 }

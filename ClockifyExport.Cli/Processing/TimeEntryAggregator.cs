@@ -11,7 +11,7 @@ public class TimeEntryAggregator : ITimeEntryAggregator
     private readonly List<IPostProcessor> postProcessors = [];
 
     /// <inheritdoc />
-    public List<GroupedTimeEntry> Aggregate(
+    public IReadOnlyCollection<GroupedTimeEntry> Aggregate(
         IEnumerable<ClockifyTimeEntry> timeEntries,
         TimeEntryGrouping grouping
     )

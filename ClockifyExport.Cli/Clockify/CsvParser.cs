@@ -9,7 +9,7 @@ namespace ClockifyExport.Cli.Clockify;
 public class CsvParser : ICsvParser
 {
     ///<inheritdoc />
-    public List<ClockifyTimeEntry> ParseSharedReportCsv(string csv)
+    public IReadOnlyList<ClockifyTimeEntry> ParseSharedReportCsv(string csv)
     {
         using var csvReader = new CsvReader(new StringReader(csv), CultureInfo.InvariantCulture);
         return csvReader.GetRecords<ClockifyTimeEntry>().ToList();

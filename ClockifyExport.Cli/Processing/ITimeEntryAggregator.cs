@@ -14,7 +14,7 @@ public interface ITimeEntryAggregator
     /// <param name="timeEntries">Time entries to group.</param>
     /// <param name="grouping">Indicates how time entries should be grouped.</param>
     /// <returns>Grouped time entries.</returns>
-    List<GroupedTimeEntry> Aggregate(
+    IReadOnlyCollection<GroupedTimeEntry> Aggregate(
         IEnumerable<ClockifyTimeEntry> timeEntries,
         TimeEntryGrouping grouping
     );

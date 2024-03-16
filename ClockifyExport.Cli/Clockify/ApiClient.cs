@@ -8,8 +8,9 @@ namespace ClockifyExport.Cli.Clockify;
 /// </summary>
 public class ApiClient(HttpClient httpClient) : IApiClient
 {
-    private static readonly string reportsBaseUrl = "https://reports.api.clockify.me";
-    private static readonly string dateTimeFormat = "yyyy-MM-ddTHH:mm:ss.fffZ";
+    private const string reportsBaseUrl = "https://reports.api.clockify.me";
+    private const string dateTimeFormat = "yyyy-MM-ddTHH:mm:ss.fffZ";
+
     private static readonly TimeOnly dayStart = new(0, 0, 0);
     private static readonly TimeOnly dayEnd = new(23, 59, 59, 999);
 
@@ -23,10 +24,10 @@ public class ApiClient(HttpClient httpClient) : IApiClient
     {
         httpClient.DefaultRequestHeaders.Add("x-api-key", apiKey);
         var url = BuildCsvSharedReportUrl(reportId, startDate, endDate);
-        return await httpClient.GetStringAsync(url);
+        return await httpClient.GetStringAsync(url).ConfigureAwait(false);
     }
 
-    private static string BuildCsvSharedReportUrl(
+    private static Uri BuildCsvSharedReportUrl(
         string reportId,
         DateOnly startDate,
         DateOnly endDate
@@ -47,6 +48,6 @@ public class ApiClient(HttpClient httpClient) : IApiClient
                     .ToDateTime(dayEnd, DateTimeKind.Utc)
                     .ToString(dateTimeFormat, CultureInfo.InvariantCulture)
             )
-            .ToString();
+            .ToUri();
     }
 }
