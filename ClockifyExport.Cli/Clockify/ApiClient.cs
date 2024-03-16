@@ -1,4 +1,5 @@
-﻿using Flurl;
+﻿using System.Globalization;
+using Flurl;
 
 namespace ClockifyExport.Cli.Clockify;
 
@@ -36,11 +37,15 @@ public class ApiClient(HttpClient httpClient) : IApiClient
             .SetQueryParam("exportType", "CSV")
             .SetQueryParam(
                 "dateRangeStart",
-                startDate.ToDateTime(dayStart, DateTimeKind.Utc).ToString(dateTimeFormat)
+                startDate
+                    .ToDateTime(dayStart, DateTimeKind.Utc)
+                    .ToString(dateTimeFormat, CultureInfo.InvariantCulture)
             )
             .SetQueryParam(
                 "dateRangeEnd",
-                endDate.ToDateTime(dayEnd, DateTimeKind.Utc).ToString(dateTimeFormat)
+                endDate
+                    .ToDateTime(dayEnd, DateTimeKind.Utc)
+                    .ToString(dateTimeFormat, CultureInfo.InvariantCulture)
             )
             .ToString();
     }

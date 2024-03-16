@@ -9,7 +9,9 @@ public class CsvParserTests
     [Test]
     public void ParsesCsvWithTask()
     {
-        var date = DateOnly.FromDateTime(DateTime.Today).ToString("o");
+        var date = DateOnly
+            .FromDateTime(DateTime.Today)
+            .ToString("o", CultureInfo.InvariantCulture);
         var task = "My task";
         var project = "My project";
         var client = "My client";
@@ -37,7 +39,9 @@ public class CsvParserTests
     [Test]
     public void ParsesCsvWithoutTask()
     {
-        var date = DateOnly.FromDateTime(DateTime.Today).ToString("o");
+        var date = DateOnly
+            .FromDateTime(DateTime.Today)
+            .ToString("o", CultureInfo.InvariantCulture);
         var project = "My project";
         var client = "My client";
         var description = "My description";
