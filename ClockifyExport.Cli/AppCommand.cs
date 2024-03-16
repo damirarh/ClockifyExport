@@ -11,11 +11,13 @@ namespace ClockifyExport.Cli;
 /// <summary>
 /// Implements the root/only command of the application.
 /// </summary>
-/// <param name="clockifyService">Injected <see cref="IClockifyService"/> instance.</param>
+/// <param name="apiClient">Injected <see cref="IApiClient"/> instance.</param>
+/// <param name="csvParser">Injected <see cref="ICsvParser"/> instance.</param>
 /// <param name="timeEntryAggregator">Injected <see cref="ITimeEntryAggregator"/> instance.</param>
 /// <param name="exporterProvider">Injected <see cref="ExporterProvider"/> instance.</param>
 public class AppCommand(
-    IClockifyService clockifyService,
+    IApiClient apiClient,
+    ICsvParser csvParser,
     ITimeEntryAggregator timeEntryAggregator,
     ExporterProvider exporterProvider
 )
@@ -82,12 +84,14 @@ public class AppCommand(
     /// <returns>0 on success, non-0 on failure.</returns>
     public async Task<int> OnExecuteAsync()
     {
-        var timeEntries = await clockifyService.GetSharedReport(
+        var csv = await apiClient.GetSharedReportCsvAsync(
             ReportId,
             StartDate!.Value, // [Required] ensures that this is not null
             EndDate!.Value, // [Required] ensures that this is not null
             ApiKey
         );
+
+        var timeEntries = csvParser.ParseSharedReportCsv(csv);
 
         if (RoundUpTo.HasValue)
         {

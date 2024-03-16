@@ -11,10 +11,10 @@ await Host.CreateDefaultBuilder()
 
 static void ConfigureServices(HostBuilderContext context, IServiceCollection services)
 {
-    services.AddTransient<IClockifyService, ClockifyService>();
-    services.AddTransient<IClockifyUrlBuilder, ClockifyUrlBuilder>();
+    services.AddTransient<IApiClient, ApiClient>();
+    services.AddTransient<ICsvParser, CsvParser>();
     services.AddTransient<ITimeEntryAggregator, TimeEntryAggregator>();
     services.AddExporters();
 
-    services.AddHttpClient<ClockifyService>();
+    services.AddHttpClient<ApiClient>();
 }

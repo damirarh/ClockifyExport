@@ -1,0 +1,14 @@
+﻿namespace ClockifyExport.Cli.Clockify;
+
+/// <summary>
+/// Parses CSV data from Clockify.
+/// </summary>
+public interface ICsvParser
+{
+    /// <summary>
+    /// Parses CSV data from a shared report.
+    /// </summary>
+    /// <param name="csv">Shared report in CSV format</param>
+    /// <returns>Time entries from the shared report.</returns>
+    List<ClockifyTimeEntry> ParseSharedReportCsv(string csv);
+}
