@@ -50,4 +50,13 @@ public class FactorOfAttributeTests
 
         message.Should().Be($"The {name} field must be a factor of {n}.");
     }
+
+    [Test]
+    public void NPropertyReturnsNParameterValue()
+    {
+        var n = 60;
+        var attribute = new FactorOfAttribute(n);
+
+        attribute.N.Should().Be(n);
+    }
 }

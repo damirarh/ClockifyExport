@@ -7,9 +7,12 @@
 public class RoundingPostProcessor(int roundUpToMinutes) : IPostProcessor
 {
     /// <inheritdoc/>
-    public GroupedTimeEntry Process(GroupedTimeEntry entry) =>
-        entry with
+    public GroupedTimeEntry Process(GroupedTimeEntry entry)
+    {
+        ArgumentNullException.ThrowIfNull(entry, nameof(entry));
+        return entry with
         {
             Hours = Math.Ceiling(entry.Hours * 60 / roundUpToMinutes) * roundUpToMinutes / 60
         };
+    }
 }

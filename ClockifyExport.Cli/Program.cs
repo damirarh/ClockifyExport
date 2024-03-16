@@ -7,7 +7,8 @@ using Microsoft.Extensions.Hosting;
 
 await Host.CreateDefaultBuilder()
     .ConfigureServices(ConfigureServices)
-    .RunCommandLineApplicationAsync<AppCommand>(args);
+    .RunCommandLineApplicationAsync<AppCommand>(args)
+    .ConfigureAwait(false);
 
 static void ConfigureServices(HostBuilderContext context, IServiceCollection services)
 {

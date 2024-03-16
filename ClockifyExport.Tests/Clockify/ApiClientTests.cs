@@ -13,7 +13,7 @@ public class ApiClientTests
     public async Task BuildsCorrectSharedReportUrl()
     {
         var handlerMock = new Mock<HttpMessageHandler>();
-        var httpClient = handlerMock.CreateClient();
+        using var httpClient = handlerMock.CreateClient();
 
         handlerMock
             .SetupRequest(
@@ -35,12 +35,14 @@ public class ApiClientTests
             .ReturnsResponse(HttpStatusCode.OK);
 
         var apiClient = new ApiClient(httpClient);
-        await apiClient.GetSharedReportCsvAsync(
-            "61a710a20a923f0f3b446bdc",
-            new DateOnly(2023, 11, 1),
-            new DateOnly(2023, 11, 30),
-            "my-api-key"
-        );
+        await apiClient
+            .GetSharedReportCsvAsync(
+                "61a710a20a923f0f3b446bdc",
+                new DateOnly(2023, 11, 1),
+                new DateOnly(2023, 11, 30),
+                "my-api-key"
+            )
+            .ConfigureAwait(false);
 
         handlerMock.VerifyAll();
     }
@@ -49,7 +51,7 @@ public class ApiClientTests
     public async Task AddsApiKeyToHeader()
     {
         var handlerMock = new Mock<HttpMessageHandler>();
-        var httpClient = handlerMock.CreateClient();
+        using var httpClient = handlerMock.CreateClient();
 
         handlerMock
             .SetupRequest(
@@ -59,12 +61,14 @@ public class ApiClientTests
             .ReturnsResponse(HttpStatusCode.OK);
 
         var apiClient = new ApiClient(httpClient);
-        await apiClient.GetSharedReportCsvAsync(
-            "61a710a20a923f0f3b446bdc",
-            new DateOnly(2023, 11, 1),
-            new DateOnly(2023, 11, 30),
-            "my-api-key"
-        );
+        await apiClient
+            .GetSharedReportCsvAsync(
+                "61a710a20a923f0f3b446bdc",
+                new DateOnly(2023, 11, 1),
+                new DateOnly(2023, 11, 30),
+                "my-api-key"
+            )
+            .ConfigureAwait(false);
 
         handlerMock.VerifyAll();
     }
@@ -73,18 +77,20 @@ public class ApiClientTests
     public async Task ReturnsHttpResponseAsString()
     {
         var handlerMock = new Mock<HttpMessageHandler>();
-        var httpClient = handlerMock.CreateClient();
+        using var httpClient = handlerMock.CreateClient();
 
         var csv = "csv";
         handlerMock.SetupAnyRequest().ReturnsResponse(csv, "text/csv");
 
         var apiClient = new ApiClient(httpClient);
-        var result = await apiClient.GetSharedReportCsvAsync(
-            "61a710a20a923f0f3b446bdc",
-            new DateOnly(2023, 11, 1),
-            new DateOnly(2023, 11, 30),
-            "my-api-key"
-        );
+        var result = await apiClient
+            .GetSharedReportCsvAsync(
+                "61a710a20a923f0f3b446bdc",
+                new DateOnly(2023, 11, 1),
+                new DateOnly(2023, 11, 30),
+                "my-api-key"
+            )
+            .ConfigureAwait(false);
 
         result.Should().Be(csv);
         handlerMock.VerifyAll();
