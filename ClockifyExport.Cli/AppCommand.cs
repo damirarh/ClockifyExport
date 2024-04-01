@@ -28,28 +28,28 @@ public class AppCommand(
     /// </summary>
     [Required]
     [Option(Description = "Clockify API key.")]
-    public string ApiKey { get; set; } = null!;
+    public required string ApiKey { get; set; }
 
     /// <summary>
     /// Clockify shared report ID.
     /// </summary>
     [Required]
     [Option(Description = "Clockify shared report ID.", ShortName = "i")]
-    public string ReportId { get; set; } = null!;
+    public required string ReportId { get; set; }
 
     /// <summary>
     /// Report start date (inclusive).
     /// </summary>
     [Required]
     [Option(Description = "Report start date (inclusive).")]
-    public DateOnly? StartDate { get; set; } = null!;
+    public DateOnly? StartDate { get; set; }
 
     /// <summary>
     /// Report end date (inclusive).
     /// </summary>
     [Required]
     [Option(Description = "Report end date (inclusive).")]
-    public DateOnly? EndDate { get; set; } = null!;
+    public DateOnly? EndDate { get; set; }
 
     /// <summary>
     /// Column to group by time entries within a day.
@@ -83,7 +83,7 @@ public class AppCommand(
     /// </summary>
     [Required]
     [Option(Description = "Output file.")]
-    public string Output { get; set; } = null!;
+    public required string Output { get; set; }
 
     /// <summary>
     /// Called when the command is invoked.
