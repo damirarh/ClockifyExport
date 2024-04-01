@@ -16,7 +16,7 @@ public class ParseTaskPreProcessor([StringSyntax("Regex")] string regexPattern) 
     private readonly Regex regex = new(regexPattern, RegexOptions.Compiled);
 
     /// <inheritdoc/>
-    public ClockifyTimeEntry Process(ClockifyTimeEntry entry)
+    public ClockifyTimeEntry Process(ClockifyTimeEntry entry, out string? validationError)
     {
         ArgumentNullException.ThrowIfNull(entry, nameof(entry));
 
@@ -25,9 +25,12 @@ public class ParseTaskPreProcessor([StringSyntax("Regex")] string regexPattern) 
             var match = regex.Match(entry.Task);
             if (match.Success)
             {
+                validationError = null;
                 return entry with { Task = match.Value };
             }
         }
+
+        validationError = $"Couldn't parse task Id from: {entry.Task}";
         return entry;
     }
 }

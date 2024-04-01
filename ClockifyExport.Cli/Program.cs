@@ -4,6 +4,7 @@ using ClockifyExport.Cli.Export;
 using ClockifyExport.Cli.Processing;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
 
 await Host.CreateDefaultBuilder()
     .ConfigureServices(ConfigureServices)
@@ -18,4 +19,6 @@ static void ConfigureServices(HostBuilderContext context, IServiceCollection ser
     services.AddExporters();
 
     services.AddHttpClient<ApiClient>();
+
+    services.AddLogging(configure => configure.SetMinimumLevel(LogLevel.Warning));
 }

@@ -3,7 +3,9 @@ using ClockifyExport.Cli.Processing;
 using ClockifyExport.Cli.Processing.PostProcessors;
 using ClockifyExport.Cli.Processing.PreProcessors;
 using FluentAssertions;
+using Microsoft.Extensions.Logging;
 using Moq;
+using Moq.AutoMock;
 
 namespace ClockifyExport.Tests.Processing;
 
@@ -47,7 +49,8 @@ public class TimeEntryAggregatorTests
     [Test]
     public void AggregatesTimeEntriesByProject()
     {
-        var aggregator = new TimeEntryAggregator();
+        var mocker = new AutoMocker();
+        var aggregator = mocker.Get<TimeEntryAggregator>();
 
         var groupedTimeEntries = aggregator.Aggregate(timeEntries, TimeEntryGrouping.ByProject);
 
@@ -75,7 +78,8 @@ public class TimeEntryAggregatorTests
     [Test]
     public void AggregatesTimeEntriesByTask()
     {
-        var aggregator = new TimeEntryAggregator();
+        var mocker = new AutoMocker();
+        var aggregator = mocker.Get<TimeEntryAggregator>();
 
         var groupedTimeEntries = aggregator.Aggregate(timeEntries, TimeEntryGrouping.ByTask);
 
@@ -100,7 +104,8 @@ public class TimeEntryAggregatorTests
     [Test]
     public void ThrowsForUnknownGrouping()
     {
-        var aggregator = new TimeEntryAggregator();
+        var mocker = new AutoMocker();
+        var aggregator = mocker.Get<TimeEntryAggregator>();
 
         Action action = () => aggregator.Aggregate(timeEntries, (TimeEntryGrouping)42);
 
@@ -114,19 +119,32 @@ public class TimeEntryAggregatorTests
     [Test]
     public void ExecutesAllPreProcessorsOnAllEntries()
     {
-        var aggregator = new TimeEntryAggregator();
+        var loggerMock = new Mock<ILogger<TimeEntryAggregator>>();
+        loggerMock.Setup(p => p.IsEnabled(It.IsAny<LogLevel>())).Returns(true);
+        var aggregator = new TimeEntryAggregator(loggerMock.Object);
 
         var preProcessor1Mock = new Mock<IPreProcessor>();
         preProcessor1Mock
-            .Setup(p => p.Process(It.IsAny<ClockifyTimeEntry>()))
-            .Returns<ClockifyTimeEntry>(entry => entry with { Project = $"{entry.Project}-P" });
+            .Setup(p => p.Process(It.IsAny<ClockifyTimeEntry>(), out It.Ref<string?>.IsAny))
+            .Returns(
+                (ClockifyTimeEntry entry, out string? error) =>
+                {
+                    error = null;
+                    return entry with { Project = $"{entry.Project}-P" };
+                }
+            );
         aggregator.AddPreProcessor(preProcessor1Mock.Object);
 
+        var validationError = "validation error";
         var preProcessor2Mock = new Mock<IPreProcessor>();
         preProcessor2Mock
-            .Setup(p => p.Process(It.IsAny<ClockifyTimeEntry>()))
-            .Returns<ClockifyTimeEntry>(
-                entry => entry with { Description = $"{entry.Description}-P" }
+            .Setup(p => p.Process(It.IsAny<ClockifyTimeEntry>(), out It.Ref<string?>.IsAny))
+            .Returns(
+                (ClockifyTimeEntry entry, out string? error) =>
+                {
+                    error = validationError;
+                    return entry with { Description = $"{entry.Description}-P" };
+                }
             );
         aggregator.AddPreProcessor(preProcessor2Mock.Object);
 
@@ -151,14 +169,33 @@ public class TimeEntryAggregatorTests
             new("2024-01-03", "P3-P", 0.5, $"D3-P"),
         };
         groupedTimeEntries.Should().BeEquivalentTo(expectedGroupedTimeEntries);
-        preProcessor1Mock.Verify(p => p.Process(It.IsAny<ClockifyTimeEntry>()), Times.Exactly(13));
-        preProcessor2Mock.Verify(p => p.Process(It.IsAny<ClockifyTimeEntry>()), Times.Exactly(13));
+        preProcessor1Mock.Verify(
+            p => p.Process(It.IsAny<ClockifyTimeEntry>(), out It.Ref<string?>.IsAny),
+            Times.Exactly(13)
+        );
+        preProcessor2Mock.Verify(
+            p => p.Process(It.IsAny<ClockifyTimeEntry>(), out It.Ref<string?>.IsAny),
+            Times.Exactly(13)
+        );
+
+        loggerMock.Verify(
+            logger =>
+                logger.Log(
+                    It.Is<LogLevel>(logLevel => logLevel == LogLevel.Warning),
+                    It.Is<EventId>(eventId => eventId.Id == 1),
+                    It.Is<It.IsAnyType>((value, _) => value.ToString()!.Contains(validationError)),
+                    It.Is<Exception>(e => e == null),
+                    It.IsAny<Func<It.IsAnyType, Exception?, string>>()
+                ),
+            Times.Exactly(13)
+        );
     }
 
     [Test]
     public void ExecutesAllPostProcessorsOnAllGroupedEntries()
     {
-        var aggregator = new TimeEntryAggregator();
+        var mocker = new AutoMocker();
+        var aggregator = mocker.Get<TimeEntryAggregator>();
 
         var postProcessor1Mock = new Mock<IPostProcessor>();
         postProcessor1Mock

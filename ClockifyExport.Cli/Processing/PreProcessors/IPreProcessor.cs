@@ -11,6 +11,7 @@ public interface IPreProcessor
     /// Processes a time entry before it is grouped.
     /// </summary>
     /// <param name="entry">Time entry to process.</param>
+    /// <param name="validationError">Warning message if any.</param>
     /// <returns>Processed time entry.</returns>
-    ClockifyTimeEntry Process(ClockifyTimeEntry entry);
+    ClockifyTimeEntry Process(ClockifyTimeEntry entry, out string? validationError);
 }

@@ -1,13 +1,16 @@
 ﻿using ClockifyExport.Cli.Clockify;
+using ClockifyExport.Cli.Logging;
 using ClockifyExport.Cli.Processing.PostProcessors;
 using ClockifyExport.Cli.Processing.PreProcessors;
+using Microsoft.Extensions.Logging;
 
 namespace ClockifyExport.Cli.Processing;
 
 /// <summary>
 /// Groups time entries from Clockify shared reports.
 /// </summary>
-public class TimeEntryAggregator : ITimeEntryAggregator
+/// <param name="logger">Injected <see cref="ILogger"/> instance.</param>
+public class TimeEntryAggregator(ILogger<TimeEntryAggregator> logger) : ITimeEntryAggregator
 {
     private readonly List<IPreProcessor> preProcessors = [];
     private readonly List<IPostProcessor> postProcessors = [];
@@ -58,7 +61,11 @@ public class TimeEntryAggregator : ITimeEntryAggregator
     {
         foreach (var preProcessor in preProcessors)
         {
-            entry = preProcessor.Process(entry);
+            entry = preProcessor.Process(entry, out var validationError);
+            if (validationError != null)
+            {
+                logger.TimeEntryValidationError(validationError, entry);
+            }
         }
         return entry;
     }

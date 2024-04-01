@@ -7,13 +7,17 @@ namespace ClockifyExport.Tests.Processing.PreProcessors;
 public class ParseTaskPreProcessorTests
 {
     [Test]
-    [TestCase("JIRA-1234: Do something", "JIRA-1234")]
-    [TestCase("JIRA-1234 Do something", "JIRA-1234")]
-    [TestCase("JIRA-1234", "JIRA-1234")]
-    [TestCase("Do something", "Do something")]
-    [TestCase("", "")]
-    [TestCase(null, null)]
-    public void ParsesJiraTaskIdOrLeaveTaskUnchanged(string? task, string? expectedTaskId)
+    [TestCase("JIRA-1234: Do something", "JIRA-1234", null)]
+    [TestCase("JIRA-1234 Do something", "JIRA-1234", null)]
+    [TestCase("JIRA-1234", "JIRA-1234", null)]
+    [TestCase("Do something", "Do something", "Couldn't parse task Id from: Do something")]
+    [TestCase("", "", "Couldn't parse task Id from: ")]
+    [TestCase(null, null, "Couldn't parse task Id from: ")]
+    public void ParsesJiraTaskIdOrLeaveTaskUnchanged(
+        string? task,
+        string? expectedTaskId,
+        string? expectedValidationError
+    )
     {
         var preProcessor = new ParseTaskPreProcessor(@"[A-Z\d]+\-\d+");
         var entry = new ClockifyTimeEntry
@@ -26,9 +30,10 @@ public class ParseTaskPreProcessorTests
             Time = TimeSpan.FromHours(1)
         };
 
-        var result = preProcessor.Process(entry);
+        var result = preProcessor.Process(entry, out var validationError);
 
         result.Task.Should().Be(expectedTaskId);
+        validationError.Should().Be(expectedValidationError);
     }
 
     [Test]
@@ -45,7 +50,7 @@ public class ParseTaskPreProcessorTests
             Time = TimeSpan.FromHours(1)
         };
 
-        var result = preProcessor.Process(entry);
+        var result = preProcessor.Process(entry, out var _);
 
         result.Date.Should().Be(entry.Date);
         result.Task.Should().NotBe(entry.Task);
