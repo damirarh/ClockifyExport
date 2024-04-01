@@ -1,5 +1,6 @@
 ﻿using ClockifyExport.Cli.Clockify;
 using ClockifyExport.Cli.Processing.PostProcessors;
+using ClockifyExport.Cli.Processing.PreProcessors;
 
 namespace ClockifyExport.Cli.Processing;
 
@@ -8,6 +9,7 @@ namespace ClockifyExport.Cli.Processing;
 /// </summary>
 public class TimeEntryAggregator : ITimeEntryAggregator
 {
+    private readonly List<IPreProcessor> preProcessors = [];
     private readonly List<IPostProcessor> postProcessors = [];
 
     /// <inheritdoc />
@@ -18,6 +20,7 @@ public class TimeEntryAggregator : ITimeEntryAggregator
     {
         var groupingSelector = GetGroupingSelector(grouping);
         return timeEntries
+            .Select(ExecutePreProcessors)
             .GroupBy(timeEntry => new { timeEntry.Date, Group = groupingSelector(timeEntry) })
             .Select(
                 grouping =>
@@ -36,6 +39,9 @@ public class TimeEntryAggregator : ITimeEntryAggregator
     }
 
     /// <inheritdoc/>
+    public void AddPreProcessor(IPreProcessor preProcessor) => preProcessors.Add(preProcessor);
+
+    /// <inheritdoc/>
     public void AddPostProcessor(IPostProcessor postProcessor) => postProcessors.Add(postProcessor);
 
     private static Func<ClockifyTimeEntry, string> GetGroupingSelector(TimeEntryGrouping grouping)
@@ -46,6 +52,15 @@ public class TimeEntryAggregator : ITimeEntryAggregator
             TimeEntryGrouping.ByProject => timeEntry => timeEntry.Project,
             _ => throw new ArgumentException($"Unknown grouping: {grouping}", nameof(grouping))
         };
+    }
+
+    private ClockifyTimeEntry ExecutePreProcessors(ClockifyTimeEntry entry)
+    {
+        foreach (var preProcessor in preProcessors)
+        {
+            entry = preProcessor.Process(entry);
+        }
+        return entry;
     }
 
     private GroupedTimeEntry ExecutePostProcessors(GroupedTimeEntry entry)

@@ -5,37 +5,37 @@ namespace ClockifyExport.Cli.Clockify;
 /// <summary>
 /// Represents a time entry from a Clockify shared report.
 /// </summary>
-public class ClockifyTimeEntry
+public record class ClockifyTimeEntry
 {
     /// <summary>
     /// Date of the time entry. Non-parsed string as in the CSV.
     /// </summary>
-    public string Date { get; set; } = null!;
+    public required string Date { get; init; }
 
     /// <summary>
     /// Task name.
     /// </summary>
     [Optional]
-    public string? Task { get; set; }
+    public string? Task { get; init; }
 
     /// <summary>
     /// Project name.
     /// </summary>
-    public string Project { get; set; } = null!;
+    public required string Project { get; init; }
 
     /// <summary>
     /// Client name.
     /// </summary>
-    public string Client { get; set; } = null!;
+    public required string Client { get; init; }
 
     /// <summary>
     /// Description of the time entry.
     /// </summary>
-    public string Description { get; set; } = null!;
+    public required string Description { get; init; }
 
     /// <summary>
     /// Duration of the time entry.
     /// </summary>
     [Name("Time (h)")]
-    public TimeSpan Time { get; set; }
+    public required TimeSpan Time { get; init; }
 }

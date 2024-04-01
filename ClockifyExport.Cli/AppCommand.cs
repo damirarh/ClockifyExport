@@ -1,10 +1,11 @@
-﻿using System.ComponentModel.DataAnnotations;
-using ClockifyExport.Cli.Clockify;
+﻿using ClockifyExport.Cli.Clockify;
 using ClockifyExport.Cli.Export;
 using ClockifyExport.Cli.Processing;
 using ClockifyExport.Cli.Processing.PostProcessors;
+using ClockifyExport.Cli.Processing.PreProcessors;
 using ClockifyExport.Cli.Validation;
 using McMaster.Extensions.CommandLineUtils;
+using System.ComponentModel.DataAnnotations;
 
 namespace ClockifyExport.Cli;
 
@@ -65,6 +66,12 @@ public class AppCommand(
     public int? RoundUpTo { get; set; }
 
     /// <summary>
+    /// Regex to use for task id parsing.
+    /// </summary>
+    [Option(Description = "Regex to use for task id parsing.")]
+    public string? TaskIdRegex { get; set; }
+
+    /// <summary>
     /// Export format.
     /// </summary>
     [Required]
@@ -98,6 +105,11 @@ public class AppCommand(
         if (RoundUpTo.HasValue)
         {
             timeEntryAggregator.AddPostProcessor(new RoundingPostProcessor(RoundUpTo.Value));
+        }
+
+        if (!string.IsNullOrEmpty(TaskIdRegex))
+        {
+            timeEntryAggregator.AddPreProcessor(new ParseTaskPreProcessor(TaskIdRegex));
         }
 
         var groupedTimeEntries = timeEntryAggregator.Aggregate(

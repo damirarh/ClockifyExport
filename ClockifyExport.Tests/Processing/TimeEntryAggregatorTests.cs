@@ -1,6 +1,7 @@
 ﻿using ClockifyExport.Cli.Clockify;
 using ClockifyExport.Cli.Processing;
 using ClockifyExport.Cli.Processing.PostProcessors;
+using ClockifyExport.Cli.Processing.PreProcessors;
 using FluentAssertions;
 using Moq;
 
@@ -108,6 +109,50 @@ public class TimeEntryAggregatorTests
             .Throw<ArgumentException>()
             .WithMessage("Unknown grouping: 42 (Parameter 'grouping')")
             .WithParameterName("grouping");
+    }
+
+    [Test]
+    public void ExecutesAllPreProcessorsOnAllEntries()
+    {
+        var aggregator = new TimeEntryAggregator();
+
+        var preProcessor1Mock = new Mock<IPreProcessor>();
+        preProcessor1Mock
+            .Setup(p => p.Process(It.IsAny<ClockifyTimeEntry>()))
+            .Returns<ClockifyTimeEntry>(entry => entry with { Project = $"{entry.Project}-P" });
+        aggregator.AddPreProcessor(preProcessor1Mock.Object);
+
+        var preProcessor2Mock = new Mock<IPreProcessor>();
+        preProcessor2Mock
+            .Setup(p => p.Process(It.IsAny<ClockifyTimeEntry>()))
+            .Returns<ClockifyTimeEntry>(
+                entry => entry with { Description = $"{entry.Description}-P" }
+            );
+        aggregator.AddPreProcessor(preProcessor2Mock.Object);
+
+        var groupedTimeEntries = aggregator.Aggregate(timeEntries, TimeEntryGrouping.ByProject);
+
+        var expectedGroupedTimeEntries = new List<GroupedTimeEntry>
+        {
+            new(
+                "2024-01-01",
+                "P1-P",
+                2,
+                $"D1A1-P{Environment.NewLine}D1A2-P{Environment.NewLine}D1B1-P{Environment.NewLine}D1B2-P"
+            ),
+            new(
+                "2024-01-01",
+                "P2-P",
+                2,
+                $"D2A1-P{Environment.NewLine}D2A2-P{Environment.NewLine}D2C1-P{Environment.NewLine}D2C2-P"
+            ),
+            new("2024-01-02", "P1-P", 1, $"D1A-P{Environment.NewLine}D1B-P"),
+            new("2024-01-02", "P2-P", 1, $"D2A-P{Environment.NewLine}D2C-P"),
+            new("2024-01-03", "P3-P", 0.5, $"D3-P"),
+        };
+        groupedTimeEntries.Should().BeEquivalentTo(expectedGroupedTimeEntries);
+        preProcessor1Mock.Verify(p => p.Process(It.IsAny<ClockifyTimeEntry>()), Times.Exactly(13));
+        preProcessor2Mock.Verify(p => p.Process(It.IsAny<ClockifyTimeEntry>()), Times.Exactly(13));
     }
 
     [Test]
