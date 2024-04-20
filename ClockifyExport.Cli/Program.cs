@@ -6,7 +6,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 
-await Host.CreateDefaultBuilder()
+return await Host.CreateDefaultBuilder()
     .ConfigureServices(ConfigureServices)
     .RunCommandLineApplicationAsync<AppCommand>(args)
     .ConfigureAwait(false);
