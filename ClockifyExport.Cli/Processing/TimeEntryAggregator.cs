@@ -24,7 +24,18 @@ public class TimeEntryAggregator(ILogger<TimeEntryAggregator> logger) : ITimeEnt
         var groupingSelector = GetGroupingSelector(grouping);
         return timeEntries
             .Select(ExecutePreProcessors)
-            .GroupBy(timeEntry => new { timeEntry.Date, Group = groupingSelector(timeEntry) })
+            .GroupBy(timeEntry =>
+            {
+                var group = groupingSelector(timeEntry);
+                if (string.IsNullOrWhiteSpace(group))
+                {
+                    logger.TimeEntryValidationError(
+                        $"Empty group value. Grouping: {grouping}",
+                        timeEntry
+                    );
+                }
+                return new { timeEntry.Date, Group = group };
+            })
             .Select(
                 grouping =>
                     new GroupedTimeEntry(

@@ -2,6 +2,7 @@
 using ClockifyExport.Cli.Processing;
 using ClockifyExport.Cli.Processing.PostProcessors;
 using ClockifyExport.Cli.Processing.PreProcessors;
+using ClockifyExport.Tests.Helpers;
 using FluentAssertions;
 using Microsoft.Extensions.Logging;
 using Moq;
@@ -78,8 +79,9 @@ public class TimeEntryAggregatorTests
     [Test]
     public void AggregatesTimeEntriesByTask()
     {
-        var mocker = new AutoMocker();
-        var aggregator = mocker.Get<TimeEntryAggregator>();
+        var loggerMock = new Mock<ILogger<TimeEntryAggregator>>();
+        loggerMock.Setup(p => p.IsEnabled(It.IsAny<LogLevel>())).Returns(true);
+        var aggregator = new TimeEntryAggregator(loggerMock.Object);
 
         var groupedTimeEntries = aggregator.Aggregate(timeEntries, TimeEntryGrouping.ByTask);
 
@@ -99,6 +101,8 @@ public class TimeEntryAggregatorTests
             new("2024-01-03", string.Empty, 0.5, $"D3"),
         };
         groupedTimeEntries.Should().BeEquivalentTo(expectedGroupedTimeEntries);
+
+        loggerMock.VerifyLog(LogLevel.Warning, 1, "2024-01-03", Times.Once());
     }
 
     [Test]
@@ -178,17 +182,7 @@ public class TimeEntryAggregatorTests
             Times.Exactly(13)
         );
 
-        loggerMock.Verify(
-            logger =>
-                logger.Log(
-                    It.Is<LogLevel>(logLevel => logLevel == LogLevel.Warning),
-                    It.Is<EventId>(eventId => eventId.Id == 1),
-                    It.Is<It.IsAnyType>((value, _) => value.ToString()!.Contains(validationError)),
-                    It.Is<Exception>(e => e == null),
-                    It.IsAny<Func<It.IsAnyType, Exception?, string>>()
-                ),
-            Times.Exactly(13)
-        );
+        loggerMock.VerifyLog(LogLevel.Warning, 1, validationError, Times.Exactly(13));
     }
 
     [Test]
