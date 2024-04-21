@@ -1,11 +1,11 @@
-﻿using ClockifyExport.Cli.Clockify;
+﻿using System.ComponentModel.DataAnnotations;
+using ClockifyExport.Cli.Clockify;
 using ClockifyExport.Cli.Export;
 using ClockifyExport.Cli.Processing;
 using ClockifyExport.Cli.Processing.PostProcessors;
 using ClockifyExport.Cli.Processing.PreProcessors;
 using ClockifyExport.Cli.Validation;
 using McMaster.Extensions.CommandLineUtils;
-using System.ComponentModel.DataAnnotations;
 
 namespace ClockifyExport.Cli;
 
@@ -86,6 +86,12 @@ public class AppCommand(
     public required string Output { get; set; }
 
     /// <summary>
+    /// Base URL of the Clockify Reports API.
+    /// </summary>
+    [Option(Description = "Base URL of the Clockify Reports API.")]
+    public Uri BaseUrl { get; set; } = new Uri("https://reports.api.clockify.me");
+
+    /// <summary>
     /// Called when the command is invoked.
     /// </summary>
     /// <returns>0 on success, non-0 on failure.</returns>
@@ -93,6 +99,7 @@ public class AppCommand(
     {
         var csv = await apiClient
             .GetSharedReportCsvAsync(
+                BaseUrl,
                 ReportId,
                 StartDate!.Value, // [Required] ensures that this is not null
                 EndDate!.Value, // [Required] ensures that this is not null

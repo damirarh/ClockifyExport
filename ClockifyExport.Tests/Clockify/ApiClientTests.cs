@@ -37,6 +37,7 @@ public class ApiClientTests
         var apiClient = new ApiClient(httpClient);
         await apiClient
             .GetSharedReportCsvAsync(
+                new Uri("https://reports.api.clockify.me"),
                 "61a710a20a923f0f3b446bdc",
                 new DateOnly(2023, 11, 1),
                 new DateOnly(2023, 11, 30),
@@ -63,6 +64,7 @@ public class ApiClientTests
         var apiClient = new ApiClient(httpClient);
         await apiClient
             .GetSharedReportCsvAsync(
+                new Uri("https://reports.api.clockify.me"),
                 "61a710a20a923f0f3b446bdc",
                 new DateOnly(2023, 11, 1),
                 new DateOnly(2023, 11, 30),
@@ -85,6 +87,7 @@ public class ApiClientTests
         var apiClient = new ApiClient(httpClient);
         var result = await apiClient
             .GetSharedReportCsvAsync(
+                new Uri("https://reports.api.clockify.me"),
                 "61a710a20a923f0f3b446bdc",
                 new DateOnly(2023, 11, 1),
                 new DateOnly(2023, 11, 30),
