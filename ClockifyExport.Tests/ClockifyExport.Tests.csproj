@@ -21,6 +21,16 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Inputs\Clockify.csv" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="Inputs\Clockify.csv">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="FluentAssertions" Version="6.12.0" />
     <PackageReference Include="Flurl" Version="4.0.0" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.9.0" />
@@ -37,6 +47,7 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
+    <PackageReference Include="WireMock.Net" Version="1.5.52" />
   </ItemGroup>
 
   <ItemGroup>
