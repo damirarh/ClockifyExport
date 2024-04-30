@@ -361,3 +361,6 @@ MigrationBackup/
 
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
+
+# Launch settings file with private API key and report ID values for testing
+ClockifyExport.Cli/Properties/launchSettings.json
