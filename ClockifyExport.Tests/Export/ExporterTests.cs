@@ -23,9 +23,11 @@ public class ExporterTests
 
         var expectedCsv = $"""
             Date,Group,Hours,Description
-            {timeEntries[0].Date},{timeEntries[0].Group},{timeEntries[0].Hours.ToString(CultureInfo.InvariantCulture)},"{timeEntries[0].Description}"
-            {timeEntries[1].Date},{timeEntries[1].Group},{timeEntries[1].Hours.ToString(CultureInfo.InvariantCulture)},{timeEntries[1].Description}
-
+            {timeEntries[0].Date},{timeEntries[0].Group},{timeEntries[0]
+                .Hours.ToString(CultureInfo.InvariantCulture)},"{timeEntries[0].Description}"
+            {timeEntries[1].Date},{timeEntries[1].Group},{timeEntries[1]
+                .Hours.ToString(CultureInfo.InvariantCulture)},{timeEntries[1].Description}
+            
             """;
         csv.Should().Be(expectedCsv.ToString());
     }

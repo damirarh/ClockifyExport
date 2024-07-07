@@ -18,9 +18,9 @@ public static partial class LoggerExtensions
         EventId = 1,
         Level = LogLevel.Warning,
         Message = """
-        Validation failed: {ValidationMessage}
-        {TimeEntry}
-        """
+            Validation failed: {ValidationMessage}
+            {TimeEntry}
+            """
     )]
     public static partial void TimeEntryValidationError(
         this ILogger logger,

@@ -200,8 +200,11 @@ public class TimeEntryAggregatorTests
         var postProcessor2Mock = new Mock<IPostProcessor>();
         postProcessor2Mock
             .Setup(p => p.Process(It.IsAny<GroupedTimeEntry>()))
-            .Returns<GroupedTimeEntry>(
-                entry => entry with { Description = $"{entry.Description}-P" }
+            .Returns<GroupedTimeEntry>(entry =>
+                entry with
+                {
+                    Description = $"{entry.Description}-P"
+                }
             );
         aggregator.AddPostProcessor(postProcessor2Mock.Object);
 

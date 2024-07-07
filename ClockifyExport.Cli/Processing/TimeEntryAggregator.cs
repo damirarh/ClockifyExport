@@ -36,18 +36,15 @@ public class TimeEntryAggregator(ILogger<TimeEntryAggregator> logger) : ITimeEnt
                 }
                 return new { timeEntry.Date, Group = group };
             })
-            .Select(
-                grouping =>
-                    new GroupedTimeEntry(
-                        grouping.Key.Date,
-                        grouping.Key.Group,
-                        grouping.Sum(timeEntry => timeEntry.Time.TotalHours),
-                        string.Join(
-                            Environment.NewLine,
-                            grouping.Select(timeEntry => timeEntry.Description)
-                        )
-                    )
-            )
+            .Select(grouping => new GroupedTimeEntry(
+                grouping.Key.Date,
+                grouping.Key.Group,
+                grouping.Sum(timeEntry => timeEntry.Time.TotalHours),
+                string.Join(
+                    Environment.NewLine,
+                    grouping.Select(timeEntry => timeEntry.Description)
+                )
+            ))
             .Select(ExecutePostProcessors)
             .ToList();
     }

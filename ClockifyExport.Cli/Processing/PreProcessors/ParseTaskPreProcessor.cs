@@ -1,6 +1,6 @@
-﻿using ClockifyExport.Cli.Clockify;
-using System.Diagnostics.CodeAnalysis;
+﻿using System.Diagnostics.CodeAnalysis;
 using System.Text.RegularExpressions;
+using ClockifyExport.Cli.Clockify;
 
 namespace ClockifyExport.Cli.Processing.PreProcessors;
 
