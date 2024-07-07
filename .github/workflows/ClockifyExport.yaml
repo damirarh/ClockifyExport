@@ -49,7 +49,7 @@ jobs:
         run: dotnet restore
 
       - name: Restore
-        run: dotnet tools restore
+        run: dotnet tool restore
 
       - name: Build
         run: dotnet build --configuration Release --no-restore
