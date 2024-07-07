@@ -1,6 +1,7 @@
 ﻿using System.Globalization;
 using ClockifyExport.Cli.Processing;
 using CsvHelper;
+using CsvHelper.Configuration;
 
 namespace ClockifyExport.Cli.Export;
 
@@ -13,7 +14,11 @@ public class CsvExporter : IExporter
     public string Export(IEnumerable<GroupedTimeEntry> timeEntries)
     {
         using var writer = new StringWriter();
-        using var csv = new CsvWriter(writer, CultureInfo.InvariantCulture);
+        var csvConfig = new CsvConfiguration(CultureInfo.InvariantCulture)
+        {
+            NewLine = Environment.NewLine,
+        };
+        using var csv = new CsvWriter(writer, csvConfig);
         csv.WriteRecords(timeEntries);
         return writer.ToString();
     }
