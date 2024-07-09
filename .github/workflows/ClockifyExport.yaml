@@ -38,7 +38,8 @@ jobs:
       NUGET_PACKAGES: ${{ github.workspace }}/.nuget/packages
 
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout code
+        uses: actions/checkout@v4
 
       - name: Setup .NET SDK
         uses: actions/setup-dotnet@v4
@@ -48,10 +49,10 @@ jobs:
           cache: true
           cache-dependency-path: "**/packages.lock.json"
 
-      - name: Restore
+      - name: Restore packages
         run: dotnet restore --locked-mode
 
-      - name: Restore
+      - name: Restore local tools
         run: dotnet tool restore
 
       - name: Build
@@ -60,7 +61,7 @@ jobs:
       - name: Test
         run: dotnet test --logger trx --collect:"XPlat Code Coverage"
 
-      - name: Test Report
+      - name: Create check run with test report
         uses: dorny/test-reporter@v1
         if: success() || failure()
         with:
@@ -68,10 +69,10 @@ jobs:
           path: ClockifyExport.Tests/TestResults/*.trx
           reporter: dotnet-trx
 
-      - name: Generate code coverage Markdown report
+      - name: Generate code coverage report
         run: dotnet reportgenerator -reports:ClockifyExport.Tests/TestResults/*/coverage.cobertura.xml -targetdir:./coverage -reporttypes:MarkdownSummary
 
-      - name: Create check run with code coverage Markdown report
+      - name: Create check run with code coverage report
         uses: LouisBrunner/checks-action@v2.0.0
         if: always()
         with:
