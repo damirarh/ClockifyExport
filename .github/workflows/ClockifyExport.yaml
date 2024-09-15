@@ -4,10 +4,8 @@ on:
   push:
     branches:
       - main
-    paths-ignore:
-      - "**/*.md"
-      - "**/*.gitignore"
-      - "**/*.gitattributes"
+    tags:
+      - v*
   pull_request:
     branches:
       - main
@@ -40,6 +38,8 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
       - name: Setup .NET SDK
         uses: actions/setup-dotnet@v4
@@ -81,3 +81,22 @@ jobs:
           conclusion: ${{ job.status }}
           output: '{"summary":"Code coverage"}'
           output_text_description_file: coverage/Summary.md
+
+      - name: Check for tag in current commit
+        run: echo "tag=$(git describe --tags --abbrev=0 --match 'v*' --exact-match)" >> "$GITHUB_ENV"
+
+      - name: Create NuGet package
+        if: startsWith(env.tag, 'v')
+        run: dotnet pack --configuration Release --no-build
+
+      - name: Publish NuGet package
+        if: startsWith(env.tag, 'v')
+        run: dotnet nuget push nupkg/*.nupkg -k ${{ secrets.NUGET_API_KEY }} -s https://nuget.org
+
+      - name: Create GitHub release
+        if: startsWith(env.tag, 'v')
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          tag: ${{ env.tag }}
+          prerelease: ${{ contains(env.tag, '-') && '--prerelease' || '' }}
+        run: gh release create "$tag" nupkg/*.nupkg --generate-notes $prelease
