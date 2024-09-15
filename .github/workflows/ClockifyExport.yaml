@@ -98,5 +98,4 @@ jobs:
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           tag: ${{ env.tag }}
-          prerelease: ${{ contains(env.tag, '-') && '--prerelease' || '' }}
-        run: gh release create "$tag" nupkg/*.nupkg --generate-notes $prelease
+        run: gh release create "$tag" nupkg/*.nupkg --generate-notes
