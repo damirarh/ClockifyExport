@@ -12,6 +12,22 @@ You need the following information from Clockify to invoke the tool:
 - report ID: it's the final part of the URL when viewing the shared report in the browser, e.g. https://app.clockify.me/shared/YourReportId
 - API key: you can generate it at the bottom of your [Clockify user settings page](https://app.clockify.me/user/settings) (don't share it with anyone as it gives access to all your data in Clockify)
 
+## Installation
+
+You can install the latest version as a global .NET tool from the NuGet Gallery with the following command:
+
+```shell
+dotnet tool install -g DamirsCorner.ClockifyExport
+```
+
+Alternatively, you can download the NuGet package from the [GitHub Releases](https://github.com/damirarh/ClockifyExport/releases) page and install that package with the following command:
+
+```shell
+dotnet tool install -g DamirsCorner.ClockifyExport --add-source "."
+```
+
+The command assumes the downloaded package is located in the current directory. If not, change the `--add-source` value to point at the directory containing the package.
+
 ## Usage
 
 ```text
