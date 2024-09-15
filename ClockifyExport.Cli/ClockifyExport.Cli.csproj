@@ -7,12 +7,19 @@
     <Nullable>enable</Nullable>
     <AnalysisLevel>latest-all</AnalysisLevel>
     <GenerateDocumentationFile>True</GenerateDocumentationFile>
-    <Version>1.0.0</Version>
+    <Version>1.0.0-rc.1</Version>
     <PackAsTool>true</PackAsTool>
+    <ToolCommandName>clockifyexport</ToolCommandName>
     <PackageOutputPath>../nupkg</PackageOutputPath>
+    <PackageId>DamirsCorner.ClockifyExport</PackageId>
     <PackageLicenseFile>LICENSE.txt</PackageLicenseFile>
     <PackageReadmeFile>README.md</PackageReadmeFile>
+    <PackageDescription>.NET global tool for exporting data from a Clockify shared report into local CSV or JSON file.</PackageDescription>
+    <PackageTags>clockify</PackageTags>
+    <Authors>Damir Arh</Authors>
     <RestorePackagesWithLockFile>true</RestorePackagesWithLockFile>
+    <RepositoryUrl>https://github.com/damirarh/ClockifyExport</RepositoryUrl>
+    <PackageProjectUrl>https://github.com/damirarh/ClockifyExport</PackageProjectUrl>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">

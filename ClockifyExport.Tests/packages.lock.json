@@ -1970,7 +1970,7 @@
         "resolved": "8.1.0",
         "contentHash": "U8UtsQJ7s6sHwt/4G7q6af0CuMzjPQcuS7/KuxqoLdDdMzwBilPldI0T3pUVwWYqrWfd3veokCrDyrGH/0tWAQ=="
       },
-      "clockifyexport.cli": {
+      "DamirsCorner.ClockifyExport": {
         "type": "Project",
         "dependencies": {
           "CsvHelper": "[33.0.1, )",

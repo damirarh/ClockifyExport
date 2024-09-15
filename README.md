@@ -14,8 +14,8 @@ You need the following information from Clockify to invoke the tool:
 
 ## Usage
 
-```
-Usage: ClockifyExport.Cli [options]
+```text
+Usage: clockifyexport [options]
 
 Options:
   -a|--api-key <API_KEY>              Clockify API key.
@@ -36,8 +36,8 @@ Options:
 
 Sample call:
 
-```bash
-ClockifyExport.Cli --api-key YourApiKey --report-id YourReportId --start-date 2024-01-01 --end-date 2024-01-31 --grouping ByTask --round-up-to 15 --format Csv --output out.csv --task-id-regex [A-Z\\d]+\\-\\d+
+```shell
+clockifyexport --api-key YourApiKey --report-id YourReportId --start-date 2024-01-01 --end-date 2024-01-31 --grouping ByTask --round-up-to 15 --format Csv --output out.csv --task-id-regex [A-Z\\d]+\\-\\d+
 ```
 
 ## Troubleshooting
