@@ -10,7 +10,7 @@ The tool exports data from a Clockify [shared report](https://clockify.me/help/r
 You need the following information from Clockify to invoke the tool:
 
 - report ID: it's the final part of the URL when viewing the shared report in the browser, e.g. https://app.clockify.me/shared/YourReportId
-- API key: you can generate it at the bottom of your [Clockify user settings page](https://app.clockify.me/user/settings) (don't share it with anyone as it gives access to all your data in Clockify)
+- API key: you can generate it on the Advanced tab of your [Clockify Preferences page](https://app.clockify.me/user/preferences#advanced) (don't share it with anyone as it gives access to all your data in Clockify)
 
 ## Installation
 
