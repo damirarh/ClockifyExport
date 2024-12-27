@@ -10,7 +10,7 @@ using Moq.AutoMock;
 
 namespace ClockifyExport.Tests.Processing;
 
-public class TimeEntryAggregatorTests
+internal sealed class TimeEntryAggregatorTests
 {
     private static readonly List<ClockifyTimeEntry> timeEntries =
     [
@@ -51,7 +51,7 @@ public class TimeEntryAggregatorTests
     public void AggregatesTimeEntriesByProject()
     {
         var mocker = new AutoMocker();
-        var aggregator = mocker.Get<TimeEntryAggregator>();
+        var aggregator = mocker.CreateInstance<TimeEntryAggregator>();
 
         var groupedTimeEntries = aggregator.Aggregate(timeEntries, TimeEntryGrouping.ByProject);
 
@@ -109,7 +109,7 @@ public class TimeEntryAggregatorTests
     public void ThrowsForUnknownGrouping()
     {
         var mocker = new AutoMocker();
-        var aggregator = mocker.Get<TimeEntryAggregator>();
+        var aggregator = mocker.CreateInstance<TimeEntryAggregator>();
 
         Action action = () => aggregator.Aggregate(timeEntries, (TimeEntryGrouping)42);
 
@@ -189,7 +189,7 @@ public class TimeEntryAggregatorTests
     public void ExecutesAllPostProcessorsOnAllGroupedEntries()
     {
         var mocker = new AutoMocker();
-        var aggregator = mocker.Get<TimeEntryAggregator>();
+        var aggregator = mocker.CreateInstance<TimeEntryAggregator>();
 
         var postProcessor1Mock = new Mock<IPostProcessor>();
         postProcessor1Mock

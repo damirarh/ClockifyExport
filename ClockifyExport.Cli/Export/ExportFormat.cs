@@ -3,7 +3,7 @@
 /// <summary>
 /// Indicates the format in which data should be exported.
 /// </summary>
-public enum ExportFormat
+internal enum ExportFormat
 {
     /// <summary>
     /// CSV format.

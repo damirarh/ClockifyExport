@@ -44,6 +44,11 @@
   <ItemGroup>
     <None Include="../LICENSE.txt" Pack="true" PackagePath="LICENSE.txt" />
     <None Include="../README.md" Pack="true" PackagePath="README.md" />
+    <None Include="./.editorconfig" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EditorConfigFiles Remove="./.editorconfig" />
   </ItemGroup>
   
 </Project>

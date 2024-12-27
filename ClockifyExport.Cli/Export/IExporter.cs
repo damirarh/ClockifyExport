@@ -5,7 +5,7 @@ namespace ClockifyExport.Cli.Export;
 /// <summary>
 /// Exports data to a string.
 /// </summary>
-public interface IExporter
+internal interface IExporter
 {
     /// <summary>
     /// Exports the given time entries to a string.

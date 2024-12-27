@@ -5,7 +5,7 @@ namespace ClockifyExport.Cli.Export;
 /// <summary>
 /// Extension methods for <see cref="IServiceCollection"/> to add exporters.
 /// </summary>
-public static class ExportServiceCollectionExtensions
+internal static class ExportServiceCollectionExtensions
 {
     /// <summary>
     /// Adds all classes required by exporters to the service collection.

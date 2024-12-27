@@ -8,7 +8,7 @@ namespace ClockifyExport.Cli.Export;
 /// <summary>
 /// Exports data to a CSV string.
 /// </summary>
-public class CsvExporter : IExporter
+internal sealed class CsvExporter : IExporter
 {
     /// <inheritdoc />
     public string Export(IEnumerable<GroupedTimeEntry> timeEntries)

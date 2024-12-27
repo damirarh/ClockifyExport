@@ -3,7 +3,7 @@
 /// <summary>
 /// Provides access to the Clockify API.
 /// </summary>
-public interface IApiClient
+internal interface IApiClient
 {
     /// <summary>
     /// Gets a shared report in CSV format.

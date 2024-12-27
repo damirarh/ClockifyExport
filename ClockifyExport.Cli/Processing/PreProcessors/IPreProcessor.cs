@@ -5,7 +5,7 @@ namespace ClockifyExport.Cli.Processing.PreProcessors;
 /// <summary>
 /// Pre-processor for time entries.
 /// </summary>
-public interface IPreProcessor
+internal interface IPreProcessor
 {
     /// <summary>
     /// Processes a time entry before it is grouped.

@@ -6,7 +6,7 @@ namespace ClockifyExport.Cli.Clockify;
 /// <summary>
 /// Parses CSV data from Clockify.
 /// </summary>
-public class CsvParser : ICsvParser
+internal sealed class CsvParser : ICsvParser
 {
     ///<inheritdoc />
     public IReadOnlyList<ClockifyTimeEntry> ParseSharedReportCsv(string csv)

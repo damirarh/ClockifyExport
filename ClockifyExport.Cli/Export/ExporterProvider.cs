@@ -7,7 +7,7 @@ namespace ClockifyExport.Cli.Export;
 /// </summary>
 /// <param name="csvExporter">Injected CSV <see cref="IExporter"/> instance.</param>
 /// <param name="jsonExporter">Injected JSON <see cref="IExporter"/> instance.</param>
-public class ExporterProvider(
+internal sealed class ExporterProvider(
     [FromKeyedServices(ExportFormat.Csv)] IExporter csvExporter,
     [FromKeyedServices(ExportFormat.Json)] IExporter jsonExporter
 )

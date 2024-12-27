@@ -11,7 +11,8 @@ namespace ClockifyExport.Cli.Processing.PreProcessors;
 /// Regular expression to use for parsing.
 /// Full match should be the task id to parse.
 /// </param>
-public class ParseTaskPreProcessor([StringSyntax("Regex")] string regexPattern) : IPreProcessor
+internal sealed class ParseTaskPreProcessor([StringSyntax("Regex")] string regexPattern)
+    : IPreProcessor
 {
     private readonly Regex regex = new(regexPattern, RegexOptions.Compiled);
 

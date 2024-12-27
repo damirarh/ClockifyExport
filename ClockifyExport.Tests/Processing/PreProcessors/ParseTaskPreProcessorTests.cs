@@ -4,7 +4,7 @@ using FluentAssertions;
 
 namespace ClockifyExport.Tests.Processing.PreProcessors;
 
-public class ParseTaskPreProcessorTests
+internal sealed class ParseTaskPreProcessorTests
 {
     [Test]
     [TestCase("JIRA-1234: Do something", "JIRA-1234", null)]

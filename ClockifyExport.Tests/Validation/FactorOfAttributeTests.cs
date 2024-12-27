@@ -3,7 +3,7 @@ using FluentAssertions;
 
 namespace ClockifyExport.Tests.Validation;
 
-public class FactorOfAttributeTests
+internal sealed class FactorOfAttributeTests
 {
     [Test]
     [TestCase(1, 60)]

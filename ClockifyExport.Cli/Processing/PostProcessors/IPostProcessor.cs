@@ -3,7 +3,7 @@
 /// <summary>
 /// Post-processor for grouped time entries.
 /// </summary>
-public interface IPostProcessor
+internal interface IPostProcessor
 {
     /// <summary>
     /// Processes a grouped time entry.

@@ -7,7 +7,7 @@ using WireMock.Server;
 
 namespace ClockifyExport.Tests.E2E;
 
-public class IntegrationTests
+internal sealed class IntegrationTests
 {
     private WireMockServer server;
 

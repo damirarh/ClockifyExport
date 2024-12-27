@@ -6,7 +6,7 @@ using FluentAssertions;
 
 namespace ClockifyExport.Tests.Export;
 
-public class ExporterTests
+internal sealed class ExporterTests
 {
     private static readonly GroupedTimeEntry[] timeEntries =
     [

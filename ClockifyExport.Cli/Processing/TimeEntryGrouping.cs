@@ -3,7 +3,7 @@
 /// <summary>
 /// Indicates how time entries should be grouped.
 /// </summary>
-public enum TimeEntryGrouping
+internal enum TimeEntryGrouping
 {
     /// <summary>
     /// Group time entries by task.

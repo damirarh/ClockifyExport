@@ -10,7 +10,8 @@ namespace ClockifyExport.Cli.Processing;
 /// Groups time entries from Clockify shared reports.
 /// </summary>
 /// <param name="logger">Injected <see cref="ILogger"/> instance.</param>
-public class TimeEntryAggregator(ILogger<TimeEntryAggregator> logger) : ITimeEntryAggregator
+internal sealed class TimeEntryAggregator(ILogger<TimeEntryAggregator> logger)
+    : ITimeEntryAggregator
 {
     private readonly List<IPreProcessor> preProcessors = [];
     private readonly List<IPostProcessor> postProcessors = [];

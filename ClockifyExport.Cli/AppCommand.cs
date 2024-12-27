@@ -16,7 +16,7 @@ namespace ClockifyExport.Cli;
 /// <param name="csvParser">Injected <see cref="ICsvParser"/> instance.</param>
 /// <param name="timeEntryAggregator">Injected <see cref="ITimeEntryAggregator"/> instance.</param>
 /// <param name="exporterProvider">Injected <see cref="ExporterProvider"/> instance.</param>
-public class AppCommand(
+internal sealed class AppCommand(
     IApiClient apiClient,
     ICsvParser csvParser,
     ITimeEntryAggregator timeEntryAggregator,

@@ -4,7 +4,7 @@ using FluentAssertions;
 
 namespace ClockifyExport.Tests.Clockify;
 
-public class CsvParserTests
+internal sealed class CsvParserTests
 {
     [Test]
     public void ParsesCsvWithTask()

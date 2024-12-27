@@ -3,7 +3,7 @@
 /// <summary>
 /// Parses CSV data from Clockify.
 /// </summary>
-public interface ICsvParser
+internal interface ICsvParser
 {
     /// <summary>
     /// Parses CSV data from a shared report.

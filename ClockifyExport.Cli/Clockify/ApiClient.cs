@@ -6,7 +6,7 @@ namespace ClockifyExport.Cli.Clockify;
 /// <summary>
 /// Provides access to the Clockify API.
 /// </summary>
-public class ApiClient(HttpClient httpClient) : IApiClient
+internal sealed class ApiClient(HttpClient httpClient) : IApiClient
 {
     private const string dateTimeFormat = "yyyy-MM-ddTHH:mm:ss.fffZ";
 

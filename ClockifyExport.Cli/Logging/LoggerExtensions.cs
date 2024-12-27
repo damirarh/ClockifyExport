@@ -6,7 +6,7 @@ namespace ClockifyExport.Cli.Logging;
 /// <summary>
 /// Strongly typed logger extensions.
 /// </summary>
-public static partial class LoggerExtensions
+internal static partial class LoggerExtensions
 {
     /// <summary>
     /// Logs a time entry validation error.
