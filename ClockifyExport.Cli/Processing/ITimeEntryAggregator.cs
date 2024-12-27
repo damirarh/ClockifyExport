@@ -7,7 +7,7 @@ namespace ClockifyExport.Cli.Processing;
 /// <summary>
 /// Groups time entries from Clockify shared reports.
 /// </summary>
-public interface ITimeEntryAggregator
+internal interface ITimeEntryAggregator
 {
     /// <summary>
     /// Groups time entries by date and either project or task.

@@ -6,7 +6,7 @@ namespace ClockifyExport.Cli.Export;
 /// <summary>
 /// Exports data to a JSON string.
 /// </summary>
-public class JsonExporter : IExporter
+internal sealed class JsonExporter : IExporter
 {
     private static readonly JsonSerializerOptions options =
         new() { PropertyNamingPolicy = JsonNamingPolicy.CamelCase, WriteIndented = true };

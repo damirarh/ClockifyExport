@@ -5,7 +5,7 @@ namespace ClockifyExport.Cli.Clockify;
 /// <summary>
 /// Represents a time entry from a Clockify shared report.
 /// </summary>
-public record class ClockifyTimeEntry
+internal sealed record class ClockifyTimeEntry
 {
     /// <summary>
     /// Date of the time entry. Non-parsed string as in the CSV.

@@ -7,7 +7,7 @@ using Moq.Contrib.HttpClient;
 
 namespace ClockifyExport.Tests.Clockify;
 
-public class ApiClientTests
+internal sealed class ApiClientTests
 {
     [Test]
     public async Task BuildsCorrectSharedReportUrl()

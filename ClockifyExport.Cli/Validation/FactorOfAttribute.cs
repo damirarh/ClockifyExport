@@ -6,7 +6,7 @@ namespace ClockifyExport.Cli.Validation;
 /// Validation attribute to indicate that a property, field or parameter must be a factor of a given number.
 /// </summary>
 /// <param name="n">The number the value must be a factor of.</param>
-public sealed class FactorOfAttribute(int n)
+internal sealed class FactorOfAttribute(int n)
     : ValidationAttribute(() => $$"""The {0} field must be a factor of {{n}}.""")
 {
     /// <summary>

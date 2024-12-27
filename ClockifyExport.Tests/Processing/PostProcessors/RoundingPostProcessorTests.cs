@@ -4,7 +4,7 @@ using FluentAssertions;
 
 namespace ClockifyExport.Tests.Processing.PostProcessors;
 
-public class RoundingPostProcessorTests
+internal sealed class RoundingPostProcessorTests
 {
     [Test]
     [TestCase(0.01, 15)]
