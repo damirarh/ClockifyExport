@@ -21,6 +21,7 @@ permissions:
   contents: write
   actions: read
   checks: write
+  id-token: write
 
 jobs:
   build:
@@ -91,9 +92,15 @@ jobs:
         if: startsWith(env.tag, 'v')
         run: dotnet pack --configuration Release --no-build
 
+      - name: NuGet login (get temporary API key using OIDC)
+        uses: NuGet/login@v1
+        id: login
+        with:
+          user: ${{secrets.NUGET_USER}}
+
       - name: Publish NuGet package
         if: startsWith(env.tag, 'v')
-        run: dotnet nuget push nupkg/*.nupkg -k ${{ secrets.NUGET_API_KEY }} -s https://nuget.org
+        run: dotnet nuget push nupkg/*.nupkg -k ${{ steps.login.outputs.NUGET_API_KEY }} -s https://nuget.org
 
       - name: Create GitHub release
         if: startsWith(env.tag, 'v')
