@@ -25,6 +25,7 @@ internal static class MockExtensions
         Times expectedTimes
     )
     {
+#pragma warning disable CA1873 // disable error/warning for mock verification
         loggerMock.Verify(
             logger =>
                 logger.Log(
@@ -36,5 +37,6 @@ internal static class MockExtensions
                 ),
             expectedTimes
         );
+#pragma warning restore CA1873
     }
 }
