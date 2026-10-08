@@ -8,12 +8,15 @@ namespace ClockifyExport.Cli.Export;
 /// </summary>
 internal sealed class JsonExporter : IExporter
 {
-    private static readonly JsonSerializerOptions options =
-        new() { PropertyNamingPolicy = JsonNamingPolicy.CamelCase, WriteIndented = true };
+    private static readonly JsonSerializerOptions Options = new()
+    {
+        PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
+        WriteIndented = true,
+    };
 
     /// <inheritdoc />
     public string Export(IEnumerable<GroupedTimeEntry> timeEntries)
     {
-        return JsonSerializer.Serialize(timeEntries, options);
+        return JsonSerializer.Serialize(timeEntries, Options);
     }
 }

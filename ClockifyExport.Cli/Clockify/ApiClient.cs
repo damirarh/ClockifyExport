@@ -8,10 +8,10 @@ namespace ClockifyExport.Cli.Clockify;
 /// </summary>
 internal sealed class ApiClient(HttpClient httpClient) : IApiClient
 {
-    private const string dateTimeFormat = "yyyy-MM-ddTHH:mm:ss.fffZ";
+    private const string DateTimeFormat = "yyyy-MM-ddTHH:mm:ss.fffZ";
 
-    private static readonly TimeOnly dayStart = new(0, 0, 0);
-    private static readonly TimeOnly dayEnd = new(23, 59, 59, 999);
+    private static readonly TimeOnly DayStart = new(0, 0, 0);
+    private static readonly TimeOnly DayEnd = new(23, 59, 59, 999);
 
     ///<inheritdoc />
     public async Task<string> GetSharedReportCsvAsync(
@@ -40,14 +40,14 @@ internal sealed class ApiClient(HttpClient httpClient) : IApiClient
             .SetQueryParam(
                 "dateRangeStart",
                 startDate
-                    .ToDateTime(dayStart, DateTimeKind.Utc)
-                    .ToString(dateTimeFormat, CultureInfo.InvariantCulture)
+                    .ToDateTime(DayStart, DateTimeKind.Utc)
+                    .ToString(DateTimeFormat, CultureInfo.InvariantCulture)
             )
             .SetQueryParam(
                 "dateRangeEnd",
                 endDate
-                    .ToDateTime(dayEnd, DateTimeKind.Utc)
-                    .ToString(dateTimeFormat, CultureInfo.InvariantCulture)
+                    .ToDateTime(DayEnd, DateTimeKind.Utc)
+                    .ToString(DateTimeFormat, CultureInfo.InvariantCulture)
             )
             .ToUri();
     }

@@ -13,8 +13,8 @@ namespace ClockifyExport.Cli.Processing;
 internal sealed class TimeEntryAggregator(ILogger<TimeEntryAggregator> logger)
     : ITimeEntryAggregator
 {
-    private readonly List<IPreProcessor> preProcessors = [];
-    private readonly List<IPostProcessor> postProcessors = [];
+    private readonly List<IPreProcessor> _preProcessors = [];
+    private readonly List<IPostProcessor> _postProcessors = [];
 
     /// <inheritdoc />
     public IReadOnlyCollection<GroupedTimeEntry> Aggregate(
@@ -37,24 +37,22 @@ internal sealed class TimeEntryAggregator(ILogger<TimeEntryAggregator> logger)
                 }
                 return new { timeEntry.Date, Group = group };
             })
-            .Select(grouping => new GroupedTimeEntry(
-                grouping.Key.Date,
-                grouping.Key.Group,
-                grouping.Sum(timeEntry => timeEntry.Time.TotalHours),
-                string.Join(
-                    Environment.NewLine,
-                    grouping.Select(timeEntry => timeEntry.Description)
-                )
+            .Select(grouped => new GroupedTimeEntry(
+                grouped.Key.Date,
+                grouped.Key.Group,
+                grouped.Sum(timeEntry => timeEntry.Time.TotalHours),
+                string.Join(Environment.NewLine, grouped.Select(timeEntry => timeEntry.Description))
             ))
             .Select(ExecutePostProcessors)
             .ToList();
     }
 
     /// <inheritdoc/>
-    public void AddPreProcessor(IPreProcessor preProcessor) => preProcessors.Add(preProcessor);
+    public void AddPreProcessor(IPreProcessor preProcessor) => _preProcessors.Add(preProcessor);
 
     /// <inheritdoc/>
-    public void AddPostProcessor(IPostProcessor postProcessor) => postProcessors.Add(postProcessor);
+    public void AddPostProcessor(IPostProcessor postProcessor) =>
+        _postProcessors.Add(postProcessor);
 
     private static Func<ClockifyTimeEntry, string> GetGroupingSelector(TimeEntryGrouping grouping)
     {
@@ -62,13 +60,13 @@ internal sealed class TimeEntryAggregator(ILogger<TimeEntryAggregator> logger)
         {
             TimeEntryGrouping.ByTask => timeEntry => timeEntry.Task ?? string.Empty,
             TimeEntryGrouping.ByProject => timeEntry => timeEntry.Project,
-            _ => throw new ArgumentException($"Unknown grouping: {grouping}", nameof(grouping))
+            _ => throw new ArgumentException($"Unknown grouping: {grouping}", nameof(grouping)),
         };
     }
 
     private ClockifyTimeEntry ExecutePreProcessors(ClockifyTimeEntry entry)
     {
-        foreach (var preProcessor in preProcessors)
+        foreach (var preProcessor in _preProcessors)
         {
             entry = preProcessor.Process(entry, out var validationError);
             if (validationError != null)
@@ -81,7 +79,7 @@ internal sealed class TimeEntryAggregator(ILogger<TimeEntryAggregator> logger)
 
     private GroupedTimeEntry ExecutePostProcessors(GroupedTimeEntry entry)
     {
-        foreach (var postProcessor in postProcessors)
+        foreach (var postProcessor in _postProcessors)
         {
             entry = postProcessor.Process(entry);
         }

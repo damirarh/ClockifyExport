@@ -28,68 +28,68 @@ internal sealed class AppCommand(
     /// </summary>
     [Required]
     [Option(Description = "Clockify API key.")]
-    public required string ApiKey { get; set; }
+    public required string ApiKey { get; init; }
 
     /// <summary>
     /// Clockify shared report ID.
     /// </summary>
     [Required]
     [Option(Description = "Clockify shared report ID.", ShortName = "i")]
-    public required string ReportId { get; set; }
+    public required string ReportId { get; init; }
 
     /// <summary>
     /// Report start date (inclusive).
     /// </summary>
     [Required]
     [Option(Description = "Report start date (inclusive).")]
-    public DateOnly? StartDate { get; set; }
+    public required DateOnly? StartDate { get; init; }
 
     /// <summary>
     /// Report end date (inclusive).
     /// </summary>
     [Required]
     [Option(Description = "Report end date (inclusive).")]
-    public DateOnly? EndDate { get; set; }
+    public required DateOnly? EndDate { get; init; }
 
     /// <summary>
     /// Column to group by time entries within a day.
     /// </summary>
     [Required]
     [Option(Description = "Column to group by time entries within a day.")]
-    public TimeEntryGrouping? Grouping { get; set; }
+    public required TimeEntryGrouping? Grouping { get; init; }
 
     /// <summary>
     /// Number of minutes to round duration up to after grouping.
     /// </summary>
     [FactorOf(60)]
     [Option(Description = "Number of minutes to round duration up to after grouping.")]
-    public int? RoundUpTo { get; set; }
+    public required int? RoundUpTo { get; init; }
 
     /// <summary>
     /// Regex to use for task id parsing.
     /// </summary>
     [Option(Description = "Regex to use for task id parsing.")]
-    public string? TaskIdRegex { get; set; }
+    public required string? TaskIdRegex { get; init; }
 
     /// <summary>
     /// Export format.
     /// </summary>
     [Required]
     [Option(Description = "Export format.")]
-    public ExportFormat? Format { get; set; }
+    public required ExportFormat? Format { get; init; }
 
     /// <summary>
     /// Output file.
     /// </summary>
     [Required]
     [Option(Description = "Output file.")]
-    public required string Output { get; set; }
+    public required string Output { get; init; }
 
     /// <summary>
     /// Base URL of the Clockify Reports API.
     /// </summary>
     [Option(Description = "Base URL of the Clockify Reports API.")]
-    public Uri BaseUrl { get; set; } = new Uri("https://reports.api.clockify.me");
+    public required Uri BaseUrl { get; init; } = new("https://reports.api.clockify.me");
 
     /// <summary>
     /// Called when the command is invoked.

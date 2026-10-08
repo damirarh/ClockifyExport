@@ -8,7 +8,7 @@ namespace ClockifyExport.Tests.Export;
 
 internal sealed class ExporterTests
 {
-    private static readonly GroupedTimeEntry[] timeEntries =
+    private static readonly GroupedTimeEntry[] TimeEntries =
     [
         new("2024-01-02", "Group 1", 1, $"Description A{Environment.NewLine}Description B"),
         new("2024-01-03", "Group 2", 0.5, $"Description C"),
@@ -19,17 +19,17 @@ internal sealed class ExporterTests
     {
         var exporter = new CsvExporter();
 
-        var csv = exporter.Export(timeEntries);
+        var csv = exporter.Export(TimeEntries);
 
         var expectedCsv = $"""
             Date,Group,Hours,Description
-            {timeEntries[0].Date},{timeEntries[0].Group},{timeEntries[0]
-                .Hours.ToString(CultureInfo.InvariantCulture)},"{timeEntries[0].Description}"
-            {timeEntries[1].Date},{timeEntries[1].Group},{timeEntries[1]
-                .Hours.ToString(CultureInfo.InvariantCulture)},{timeEntries[1].Description}
+            {TimeEntries[0].Date},{TimeEntries[0].Group},{TimeEntries[0]
+                .Hours.ToString(CultureInfo.InvariantCulture)},"{TimeEntries[0].Description}"
+            {TimeEntries[1].Date},{TimeEntries[1].Group},{TimeEntries[1]
+                .Hours.ToString(CultureInfo.InvariantCulture)},{TimeEntries[1].Description}
             
             """;
-        csv.Should().Be(expectedCsv.ToString());
+        csv.Should().Be(expectedCsv);
     }
 
     [Test]
@@ -37,25 +37,25 @@ internal sealed class ExporterTests
     {
         var exporter = new JsonExporter();
 
-        var json = exporter.Export(timeEntries);
+        var json = exporter.Export(TimeEntries);
 
         var expectedJson = $$"""
             [
               {
-                "date": "{{timeEntries[0].Date}}",
-                "group": "{{timeEntries[0].Group}}",
-                "hours": {{timeEntries[0].Hours.ToString(CultureInfo.InvariantCulture)}},
-                "description": "{{JsonEncodedText.Encode(timeEntries[0].Description)}}"
+                "date": "{{TimeEntries[0].Date}}",
+                "group": "{{TimeEntries[0].Group}}",
+                "hours": {{TimeEntries[0].Hours.ToString(CultureInfo.InvariantCulture)}},
+                "description": "{{JsonEncodedText.Encode(TimeEntries[0].Description)}}"
               },
               {
-                "date": "{{timeEntries[1].Date}}",
-                "group": "{{timeEntries[1].Group}}",
-                "hours": {{timeEntries[1].Hours.ToString(CultureInfo.InvariantCulture)}},
-                "description": "{{timeEntries[1].Description}}"
+                "date": "{{TimeEntries[1].Date}}",
+                "group": "{{TimeEntries[1].Group}}",
+                "hours": {{TimeEntries[1].Hours.ToString(CultureInfo.InvariantCulture)}},
+                "description": "{{TimeEntries[1].Description}}"
               }
             ]
             """;
-        json.Should().Be(expectedJson.ToString());
+        json.Should().Be(expectedJson);
     }
 
     [Test]
