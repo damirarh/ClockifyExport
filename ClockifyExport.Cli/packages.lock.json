@@ -4,9 +4,9 @@
     "net10.0": {
       "CsvHelper": {
         "type": "Direct",
-        "requested": "[33.0.1, )",
-        "resolved": "33.0.1",
-        "contentHash": "fev4lynklAU2A9GVMLtwarkwaanjSYB4wUqO2nOJX5hnzObORzUqVLe+bDYCUyIIRQM4o5Bsq3CcyJR89iMmEQ=="
+        "requested": "[33.1.0, )",
+        "resolved": "33.1.0",
+        "contentHash": "kqfTOZGrn7NarNeXgjh86JcpTHUoeQDMB8t9NVa/ZtlSYiV1rxfRnQ49WaJsob4AiGrbK0XDzpyKkBwai4F8eg=="
       },
       "Flurl": {
         "type": "Direct",
@@ -16,22 +16,19 @@
       },
       "McMaster.Extensions.CommandLineUtils": {
         "type": "Direct",
-        "requested": "[4.1.1, )",
-        "resolved": "4.1.1",
-        "contentHash": "zxgDY+G5yVq2q8sVB3Z275Qkxed1jC95nwAfnlSyoG4l5Nicvd4+ke1jXusEZEfyuErlAgXCKS937c13FmZWBg==",
-        "dependencies": {
-          "System.ComponentModel.Annotations": "5.0.0"
-        }
+        "requested": "[5.1.0, )",
+        "resolved": "5.1.0",
+        "contentHash": "YceiKmxdsBrlkAJpmJ2N8XkLyAH01xLsm4VLfjNp5MvtAom2wflZtEBz3CLMQret6Z7jSh3oBO1ULF1Is0tNxA=="
       },
       "McMaster.Extensions.Hosting.CommandLine": {
         "type": "Direct",
-        "requested": "[4.1.1, )",
-        "resolved": "4.1.1",
-        "contentHash": "+a37L3hHZC2KG1sbwdzTGlUWIJWYQv/9I4dLnrC0OVusR/665hkewjlz1jiAKa8jYbve4GTSZsRCoVXcSFFrdA==",
+        "requested": "[5.1.0, )",
+        "resolved": "5.1.0",
+        "contentHash": "XN6s/86/bP0PSsP5p2eX49ZKmWrURSNg7nvrG5vws3abm7Py1A4bv3x3Pdvg7FqR8mLgEE0gNTI1qDtlYQIQnw==",
         "dependencies": {
-          "McMaster.Extensions.CommandLineUtils": "4.1.1",
-          "Microsoft.Extensions.Hosting.Abstractions": "6.0.0",
-          "Microsoft.Extensions.Logging.Abstractions": "6.0.0"
+          "McMaster.Extensions.CommandLineUtils": "5.1.0",
+          "Microsoft.Extensions.Hosting.Abstractions": "10.0.5",
+          "Microsoft.Extensions.Logging.Abstractions": "10.0.5"
         }
       },
       "Microsoft.Extensions.Hosting": {
@@ -327,11 +324,6 @@
         "type": "Transitive",
         "resolved": "10.0.12",
         "contentHash": "dYfCLR52UA+3DL7C4I/pvSaRPkNqxrUAQmbFL2u0zvYKKzqgrFCJl08Df+F1aYc8leu9JvpC9bsURUdpExcBXQ=="
-      },
-      "System.ComponentModel.Annotations": {
-        "type": "Transitive",
-        "resolved": "5.0.0",
-        "contentHash": "dMkqfy2el8A8/I76n2Hi1oBFEbG1SfxD2l5nhwXV3XjlnOmwxJlQbYpJH4W51odnU9sARCSAgv7S3CyAFMkpYg=="
       },
       "System.Diagnostics.EventLog": {
         "type": "Transitive",
