@@ -14,7 +14,7 @@ namespace ClockifyExport.Cli.Processing.PreProcessors;
 internal sealed class ParseTaskPreProcessor([StringSyntax("Regex")] string regexPattern)
     : IPreProcessor
 {
-    private readonly Regex regex = new(regexPattern, RegexOptions.Compiled);
+    private readonly Regex _regex = new(regexPattern, RegexOptions.Compiled);
 
     /// <inheritdoc/>
     public ClockifyTimeEntry Process(ClockifyTimeEntry entry, out string? validationError)
@@ -23,7 +23,7 @@ internal sealed class ParseTaskPreProcessor([StringSyntax("Regex")] string regex
 
         if (!string.IsNullOrEmpty(entry.Task))
         {
-            var match = regex.Match(entry.Task);
+            var match = _regex.Match(entry.Task);
             if (match.Success)
             {
                 validationError = null;

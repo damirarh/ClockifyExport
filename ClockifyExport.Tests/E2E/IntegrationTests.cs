@@ -9,25 +9,25 @@ namespace ClockifyExport.Tests.E2E;
 
 internal sealed class IntegrationTests
 {
-    private WireMockServer server;
+    private WireMockServer _server;
 
     [SetUp]
     public void Setup()
     {
-        server = WireMockServer.Start();
+        _server = WireMockServer.Start();
     }
 
     [Test]
     public void AppRunsWhenApiCallSucceeds()
     {
         var reportId = "report-id";
-        server
+        _server
             .Given(Request.Create().WithPath($"/v1/shared-reports/{reportId}").UsingGet())
             .RespondWith(
                 Response.Create().WithStatusCode(200).WithBodyFromFile("Inputs/Clockify.csv")
             );
 
-        var result = InvokeApp(reportId, server.Urls[0]);
+        var result = InvokeApp(reportId, _server.Urls[0]);
         result.Should().Be(0);
     }
 
@@ -35,11 +35,11 @@ internal sealed class IntegrationTests
     public void AppFailsWhenApiCallFails()
     {
         var reportId = "report-id";
-        server
+        _server
             .Given(Request.Create().WithPath($"/v1/shared-reports/{reportId}").UsingGet())
             .RespondWith(Response.Create().WithStatusCode(401));
 
-        var action = () => InvokeApp(reportId, server.Urls[0]);
+        var action = () => InvokeApp(reportId, _server.Urls[0]);
         action
             .Should()
             .Throw<TargetInvocationException>()
@@ -79,7 +79,7 @@ internal sealed class IntegrationTests
     [TearDown]
     public void TearDown()
     {
-        server.Stop();
-        server.Dispose();
+        _server.Stop();
+        _server.Dispose();
     }
 }

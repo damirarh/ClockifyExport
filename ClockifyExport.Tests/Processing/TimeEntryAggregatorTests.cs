@@ -12,7 +12,7 @@ namespace ClockifyExport.Tests.Processing;
 
 internal sealed class TimeEntryAggregatorTests
 {
-    private static readonly List<ClockifyTimeEntry> timeEntries =
+    private static readonly List<ClockifyTimeEntry> TimeEntries =
     [
         CreateClockifyTimeEntry("2024-01-01", "TA", "P1", "C1", "D1A1", 0.5),
         CreateClockifyTimeEntry("2024-01-01", "TA", "P1", "C1", "D1A2", 0.5),
@@ -44,7 +44,7 @@ internal sealed class TimeEntryAggregatorTests
             Project = project,
             Client = client,
             Description = description,
-            Time = TimeSpan.FromHours(hours)
+            Time = TimeSpan.FromHours(hours),
         };
 
     [Test]
@@ -53,7 +53,7 @@ internal sealed class TimeEntryAggregatorTests
         var mocker = new AutoMocker();
         var aggregator = mocker.CreateInstance<TimeEntryAggregator>();
 
-        var groupedTimeEntries = aggregator.Aggregate(timeEntries, TimeEntryGrouping.ByProject);
+        var groupedTimeEntries = aggregator.Aggregate(TimeEntries, TimeEntryGrouping.ByProject);
 
         var expectedGroupedTimeEntries = new List<GroupedTimeEntry>
         {
@@ -83,7 +83,7 @@ internal sealed class TimeEntryAggregatorTests
         loggerMock.Setup(p => p.IsEnabled(It.IsAny<LogLevel>())).Returns(true);
         var aggregator = new TimeEntryAggregator(loggerMock.Object);
 
-        var groupedTimeEntries = aggregator.Aggregate(timeEntries, TimeEntryGrouping.ByTask);
+        var groupedTimeEntries = aggregator.Aggregate(TimeEntries, TimeEntryGrouping.ByTask);
 
         var expectedGroupedTimeEntries = new List<GroupedTimeEntry>
         {
@@ -111,7 +111,7 @@ internal sealed class TimeEntryAggregatorTests
         var mocker = new AutoMocker();
         var aggregator = mocker.CreateInstance<TimeEntryAggregator>();
 
-        Action action = () => aggregator.Aggregate(timeEntries, (TimeEntryGrouping)42);
+        Action action = () => aggregator.Aggregate(TimeEntries, (TimeEntryGrouping)42);
 
         action
             .Should()
@@ -152,7 +152,7 @@ internal sealed class TimeEntryAggregatorTests
             );
         aggregator.AddPreProcessor(preProcessor2Mock.Object);
 
-        var groupedTimeEntries = aggregator.Aggregate(timeEntries, TimeEntryGrouping.ByProject);
+        var groupedTimeEntries = aggregator.Aggregate(TimeEntries, TimeEntryGrouping.ByProject);
 
         var expectedGroupedTimeEntries = new List<GroupedTimeEntry>
         {
@@ -203,12 +203,12 @@ internal sealed class TimeEntryAggregatorTests
             .Returns<GroupedTimeEntry>(entry =>
                 entry with
                 {
-                    Description = $"{entry.Description}-P"
+                    Description = $"{entry.Description}-P",
                 }
             );
         aggregator.AddPostProcessor(postProcessor2Mock.Object);
 
-        var groupedTimeEntries = aggregator.Aggregate(timeEntries, TimeEntryGrouping.ByProject);
+        var groupedTimeEntries = aggregator.Aggregate(TimeEntries, TimeEntryGrouping.ByProject);
 
         var expectedGroupedTimeEntries = new List<GroupedTimeEntry>
         {
