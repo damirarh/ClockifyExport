@@ -1,0 +1,4 @@
+<Solution>
+  <Project Path="ClockifyExport.Cli/ClockifyExport.Cli.csproj" />
+  <Project Path="ClockifyExport.Tests/ClockifyExport.Tests.csproj" />
+</Solution>
