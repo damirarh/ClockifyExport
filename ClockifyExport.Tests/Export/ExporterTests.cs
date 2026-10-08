@@ -29,7 +29,7 @@ internal sealed class ExporterTests
                 .Hours.ToString(CultureInfo.InvariantCulture)},{TimeEntries[1].Description}
             
             """;
-        csv.Should().Be(expectedCsv.ToString());
+        csv.Should().Be(expectedCsv);
     }
 
     [Test]
@@ -55,7 +55,7 @@ internal sealed class ExporterTests
               }
             ]
             """;
-        json.Should().Be(expectedJson.ToString());
+        json.Should().Be(expectedJson);
     }
 
     [Test]

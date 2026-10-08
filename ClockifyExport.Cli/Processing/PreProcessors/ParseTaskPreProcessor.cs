@@ -19,7 +19,7 @@ internal sealed class ParseTaskPreProcessor([StringSyntax("Regex")] string regex
     /// <inheritdoc/>
     public ClockifyTimeEntry Process(ClockifyTimeEntry entry, out string? validationError)
     {
-        ArgumentNullException.ThrowIfNull(entry, nameof(entry));
+        ArgumentNullException.ThrowIfNull(entry);
 
         if (!string.IsNullOrEmpty(entry.Task))
         {
