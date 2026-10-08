@@ -22,8 +22,11 @@ internal sealed class ApiClientTests
                 {
                     Url url = request.RequestUri;
                     return url.Scheme == "https"
-                        && url.Host == "reports.api.clockify.me"
-                        && url.Path == "/v1/shared-reports/61a710a20a923f0f3b446bdc"
+                        && url
+                            is {
+                                Host: "reports.api.clockify.me",
+                                Path: "/v1/shared-reports/61a710a20a923f0f3b446bdc"
+                            }
                         && url.QueryParams.Count == 3
                         && url.QueryParams.FirstOrDefault("exportType").ToString() == "CSV"
                         && url.QueryParams.FirstOrDefault("dateRangeStart").ToString()
