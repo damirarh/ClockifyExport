@@ -31,7 +31,7 @@ internal static class MockExtensions
                 logger.Log(
                     It.Is<LogLevel>(logLevel => logLevel == expectedLogLevel),
                     It.Is<EventId>(eventId => eventId.Id == expectedEventId),
-                    It.Is<It.IsAnyType>((value, _) => value.ToString()!.Contains(expectedMessage)),
+                    It.Is<It.IsAnyType>((value, _) => value!.ToString()!.Contains(expectedMessage)),
                     It.Is<Exception?>(e => e == null),
                     It.IsAny<Func<It.IsAnyType, Exception?, string>>()
                 ),
