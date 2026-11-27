@@ -1,5 +1,4 @@
-﻿using System.Globalization;
-using CsvHelper;
+﻿using CsvHelper;
 
 namespace ClockifyExport.Cli.Clockify;
 
@@ -11,7 +10,7 @@ internal sealed class CsvParser : ICsvParser
     ///<inheritdoc />
     public IReadOnlyList<ClockifyTimeEntry> ParseSharedReportCsv(string csv)
     {
-        using var csvReader = new CsvReader(new StringReader(csv), CultureInfo.InvariantCulture);
+        using var csvReader = CsvReader.Create(new StringReader(csv));
         return csvReader.GetRecords<ClockifyTimeEntry>().ToList();
     }
 }

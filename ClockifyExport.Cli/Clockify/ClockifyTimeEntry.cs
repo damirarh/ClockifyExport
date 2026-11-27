@@ -1,11 +1,12 @@
-﻿using CsvHelper.Configuration.Attributes;
+﻿using CsvHelper;
 
 namespace ClockifyExport.Cli.Clockify;
 
 /// <summary>
 /// Represents a time entry from a Clockify shared report.
 /// </summary>
-internal sealed record ClockifyTimeEntry
+[CsvRecord]
+internal sealed partial record ClockifyTimeEntry
 {
     /// <summary>
     /// Date of the time entry. Non-parsed string as in the CSV.
@@ -15,7 +16,7 @@ internal sealed record ClockifyTimeEntry
     /// <summary>
     /// Task name.
     /// </summary>
-    [Optional]
+    [CsvColumn(Optional = true)]
     public string? Task { get; init; }
 
     /// <summary>
@@ -36,6 +37,6 @@ internal sealed record ClockifyTimeEntry
     /// <summary>
     /// Duration of the time entry.
     /// </summary>
-    [Name("Duration (h)")]
+    [CsvColumn("Duration (h)")]
     public required TimeSpan Time { get; init; }
 }
