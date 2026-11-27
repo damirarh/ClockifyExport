@@ -19,7 +19,7 @@ internal sealed class CsvParserTests
         var time = TimeSpan.FromMinutes(15);
 
         var csv = $"""
-            "Date","Task","Project","Client","Description","Time (h)","Time (decimal)"
+            "Date","Task","Project","Client","Description","Duration (h)","Duration (decimal)"
             "{date}","{task}","{project}","{client}","{description}","{time}","{time.TotalHours.ToString(
                 CultureInfo.InvariantCulture
             )}"
@@ -50,7 +50,7 @@ internal sealed class CsvParserTests
         var time = TimeSpan.FromMinutes(15);
 
         var csv = $"""
-            "Date","Project","Client","Description","Time (h)","Time (decimal)"
+            "Date","Project","Client","Description","Duration (h)","Duration (decimal)"
             "{date}","{project}","{client}","{description}","{time}","{time.TotalHours.ToString(
                 CultureInfo.InvariantCulture
             )}"

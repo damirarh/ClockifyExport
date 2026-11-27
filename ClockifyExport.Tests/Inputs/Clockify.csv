@@ -1,4 +1,4 @@
-"Date","Project","Client","Description","Time (h)","Time (decimal)"
+"Date","Project","Client","Description","Duration (h)","Duration (decimal)"
 "2024-01-03","Project A","Company","Lorem ipsum dolor sit amet","00:38:20","0.6389"
 "2024-01-03","Project A","Company","Lorem ipsum dolor sit amet","01:35:51","1.5975"
 "2024-01-03","Project B","Company","Lorem ipsum dolor sit amet","00:42:56","0.7156"

@@ -36,6 +36,6 @@ internal sealed record ClockifyTimeEntry
     /// <summary>
     /// Duration of the time entry.
     /// </summary>
-    [Name("Time (h)")]
+    [Name("Duration (h)")]
     public required TimeSpan Time { get; init; }
 }
